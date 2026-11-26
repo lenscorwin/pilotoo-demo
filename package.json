@@ -1,0 +1,28 @@
+{
+  "name": "pilotoo",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "description": "Pilotoo, le tableau de bord de mes projets (version démo publique)",
+  "scripts": {
+    "scan": "node src/scanner/index.mjs",
+    "serve": "node src/server/index.mjs",
+    "dev": "npm run scan && concurrently -n scan,api,web -c gray,cyan,magenta \"npm:serve\" \"vite --config src/web/vite.config.js\"",
+    "build": "vite build --config src/web/vite.config.js",
+    "dash": "npm run scan && npm run build && npm run serve"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "lucide-react": "^0.462.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.0.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "concurrently": "^9.1.0",
+    "tailwindcss": "^4.0.0",
+    "vite": "^6.0.7"
+  }
+}

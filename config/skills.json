@@ -1,0 +1,313 @@
+{
+  "_doc": "Noms lisibles des skills embarqués dans les projets. Clé = nom du dossier du skill (ce qu'on tape après /). nom : comment l'appeler en français. role : ce qu'il fait, en une ligne. specificite : ce qui le distingue, quand ne pas l'appeler. liens : relations écrites à la main, en plus de celles que le scanner détecte seul dans les descriptions. Types de lien : oriente (aiguille vers), complement (se combine avec), alternative (fait le même métier autrement, un seul à la fois), remplace (version plus récente), suite (à enchaîner après). Voir wiki/skills-lisibles.md.",
+
+  "packs": {
+    "heygen-com/hyperframes": { "nom": "HyperFrames", "role": "Fabriquer une vidéo à partir de HTML, rendue en MP4 sur la machine", "fiche": "hyperframes" },
+    "leonxlnx/taste-skill": { "nom": "Taste", "role": "Directions visuelles assumées pour sortir du rendu générique", "fiche": "taste-skill" },
+    "emilkowalski/skills": { "nom": "Emil Kowalski", "role": "Mouvement et finition d'interface, sans imposer de style", "fiche": "emil-kowalski-skills" },
+    "anthropics/skills": { "nom": "Anthropic", "role": "Skills officiels d'Anthropic" },
+    "vercel-labs/agent-skills": { "nom": "Vercel", "role": "Skills publiés par Vercel", "fiche": "vercel-skills" },
+    "pbakaus/impeccable": { "nom": "Impeccable", "role": "Atelier design qui prescrit, corrige et vérifie", "fiche": "impeccable" },
+    "bibliotheque": { "nom": "Bibliothèque maison", "role": "Skills et kits venus de « Skills-Lib »" },
+    "autres": { "nom": "Sans pack connu", "role": "Skills dont l'origine n'est pas notée dans skills-lock.json" }
+  },
+
+  "skills": {
+    "hyperframes": {
+      "nom": "Porte d'entrée HyperFrames",
+      "role": "Lit la demande vidéo et l'aiguille vers le bon atelier",
+      "specificite": "À appeler en premier pour toute vidéo : il reprend l'état du projet et choisit le workflow. Il ne produit rien lui-même.",
+      "liens": { "oriente": ["product-launch-video", "general-video", "motion-graphics", "faceless-explainer", "slideshow", "music-to-video", "pr-to-video", "talking-head-recut"] }
+    },
+    "hyperframes-core": {
+      "nom": "Règles de composition vidéo",
+      "role": "Le contrat technique d'une vidéo HyperFrames : pistes, minutage, sous-compositions",
+      "specificite": "À lire avant d'écrire le HTML d'une composition. Ne donne aucune direction artistique.",
+      "liens": { "complement": ["hyperframes-animation", "hyperframes-cli"] }
+    },
+    "hyperframes-animation": {
+      "nom": "Bibliothèque de mouvements vidéo",
+      "role": "Règles de mouvement, plans types de scène, transitions et carte d'animation",
+      "specificite": "Mouvement pour une vidéo, pas pour une page web. Sa carte d'animation exige le paquet @hyperframes/producer et place les sous-timelines à 0 s.",
+      "liens": { "complement": ["hyperframes-keyframes", "motion-doctrine", "hyperframes-creative"] }
+    },
+    "hyperframes-keyframes": {
+      "nom": "Images clés et caméra",
+      "role": "Zooms, recadrages, mouvements de caméra et morphing SVG, au temps près",
+      "specificite": "Pour un mouvement précis dans une scène. La stratégie d'ensemble relève de hyperframes-animation.",
+      "liens": { "complement": ["hyperframes-animation"] }
+    },
+    "hyperframes-creative": {
+      "nom": "Direction artistique vidéo",
+      "role": "Palette, typographie, narration, découpage en temps forts, style de marque",
+      "specificite": "Tout sauf le mouvement, qui relève de hyperframes-animation.",
+      "liens": { "complement": ["hyperframes-animation", "media-use"] }
+    },
+    "hyperframes-cli": {
+      "nom": "Ligne de commande HyperFrames",
+      "role": "Créer, vérifier, prévisualiser et rendre une vidéo",
+      "specificite": "La boucle de travail : init, check, preview, render. Le rendu local passe par FFmpeg, à installer avant.",
+      "liens": { "complement": ["hyperframes-core"] }
+    },
+    "hyperframes-registry": {
+      "nom": "Catalogue d'effets prêts à poser",
+      "role": "Environ 400 blocs et composants à installer : glitch, grain, graphiques, cartes, terminal",
+      "specificite": "À consulter avant de dessiner un effet à la main : il existe souvent déjà.",
+      "liens": { "complement": ["hyperframes-core"] }
+    },
+    "motion-doctrine": {
+      "nom": "Continuité entre les scènes",
+      "role": "Fait d'une vidéo à plusieurs scènes un seul mouvement de caméra continu",
+      "specificite": "À charger avant de composer une vidéo multi-scènes. Ne concerne pas l'animation d'une interface, malgré son nom.",
+      "liens": { "complement": ["seam-craft", "cut-the-curve"] }
+    },
+    "seam-craft": {
+      "nom": "Raccords qui se rendent bien",
+      "role": "Conditions techniques pour que les transitions entre scènes passent au rendu",
+      "specificite": "Côté rendu, au moment d'assembler la timeline maître. Le choix du raccord relève de cut-the-curve.",
+      "liens": { "complement": ["cut-the-curve", "motion-doctrine"] }
+    },
+    "cut-the-curve": {
+      "nom": "Catalogue de transitions",
+      "role": "Cinq raccords à vitesse continue (zoom traversant, cascade, flou de mise au point) et deux entrées en scène",
+      "specificite": "Dit quel raccord choisir et comment le régler. Sa mise en œuvre sans défaut relève de seam-craft.",
+      "liens": { "complement": ["seam-craft"] }
+    },
+    "oversized-cursor": {
+      "nom": "Curseur géant",
+      "role": "Le curseur macOS surdimensionné des vidéos de lancement",
+      "specificite": "Pour une scène d'interface où un clic déclenche l'action suivante.",
+      "liens": { "complement": ["product-launch-video"] }
+    },
+    "media-use": {
+      "nom": "Médias de la vidéo",
+      "role": "Trouve, génère ou traite musique, bruitages, images, logos, voix off et étalonnage",
+      "specificite": "Le seul point d'entrée pour un média dans un projet HyperFrames. Musique et bruitages demandent la CLI HeyGen.",
+      "liens": { "complement": ["hyperframes-creative"] }
+    },
+    "product-launch-video": {
+      "nom": "Vidéo de lancement produit",
+      "role": "Promo, démo ou visite d'un site à partir d'une URL, d'un script ou d'un brief",
+      "specificite": "Le choix par défaut pour une URL commerciale ou la vitrine d'un site.",
+      "liens": { "alternative": ["general-video", "faceless-explainer"] }
+    },
+    "general-video": {
+      "nom": "Vidéo sur mesure",
+      "role": "Montage libre quand aucun atelier spécialisé ne convient : sizzle, montage, boucle, carton",
+      "specificite": "Pour une pièce longue ou à plusieurs scènes. Court et sans voix : motion-graphics.",
+      "liens": { "alternative": ["motion-graphics", "product-launch-video"] }
+    },
+    "motion-graphics": {
+      "nom": "Motion design court",
+      "role": "Typo cinétique, chiffre qui s'anime, logo, carte, encart de moins de 30 s",
+      "specificite": "Le mouvement porte le message, sans voix off ni prise de vue. C'est le format du spot « parcours » du portfolio.",
+      "liens": { "alternative": ["general-video"] }
+    },
+    "faceless-explainer": {
+      "nom": "Vidéo explicative sans visage",
+      "role": "Transforme un texte en vidéo, avec des visuels inventés scène par scène",
+      "specificite": "Quand il n'y a ni site ni images à filmer : un article, des notes, un sujet.",
+      "liens": { "alternative": ["product-launch-video"] }
+    },
+    "slideshow": {
+      "nom": "Présentation interactive",
+      "role": "Deck navigable avec mode présentateur et notes",
+      "specificite": "Produit un deck à feuilleter, pas un fichier MP4."
+    },
+    "music-to-video": {
+      "nom": "Clip calé sur la musique",
+      "role": "Vidéo au rythme d'un morceau : paroles, diaporama, promo",
+      "specificite": "La musique dicte tout le découpage. Une voix off relève d'un autre atelier."
+    },
+    "pr-to-video": {
+      "nom": "Vidéo d'une pull request",
+      "role": "Explique un changement de code à partir d'une PR GitHub",
+      "specificite": "L'entrée est un diff, pas un site ni un sujet."
+    },
+    "changelog-video": {
+      "nom": "Vidéo de changelog",
+      "role": "Un changelog en markdown devient une vidéo carrée de 45 à 60 s avec voix off",
+      "specificite": "Format figé, pensé pour un rendez-vous hebdomadaire."
+    },
+    "talking-head-recut": {
+      "nom": "Habillage d'interview",
+      "role": "Titres, encarts et citations synchronisés sur une vidéo face caméra",
+      "specificite": "La vidéo reste intacte dessous. Pour de simples sous-titres : embedded-captions.",
+      "liens": { "alternative": ["embedded-captions"] }
+    },
+    "embedded-captions": {
+      "nom": "Sous-titres",
+      "role": "Sous-titres d'une vidéo face caméra, sobres ou incrustés derrière le sujet",
+      "specificite": "Ne touche pas au montage. Les règles de placement sont dans captions-overlay.",
+      "liens": { "complement": ["captions-overlay"] }
+    },
+    "captions-overlay": {
+      "nom": "Règle des sous-titres en surimpression",
+      "role": "Les sous-titres se posent sur l'image, jamais dans une bande réservée en bas",
+      "specificite": "Doctrine chargée par embedded-captions, pas un atelier à appeler seul.",
+      "liens": { "complement": ["embedded-captions"] }
+    },
+    "remotion-to-hyperframes": {
+      "nom": "Conversion Remotion",
+      "role": "Porte une composition Remotion (React) en HTML HyperFrames",
+      "specificite": "Seulement sur demande explicite de conversion. Une simple mention de Remotion n'en est pas une."
+    },
+    "figma": {
+      "nom": "Import Figma vers la vidéo",
+      "role": "Ramène maquettes, couleurs et composants Figma dans une composition vidéo",
+      "specificite": "Pour une vidéo. Lire une maquette pour coder une page passe par le connecteur Figma, pas par ce skill."
+    },
+
+    "design-taste-frontend": {
+      "nom": "Direction visuelle déduite du brief",
+      "role": "Lit le brief, règle trois curseurs (variété, mouvement, densité), puis code",
+      "specificite": "Éprouvé au banc du portfolio, 4/5 : diagnostic meilleur que l'exécution. Mode redesign-preserve pour retoucher un existant.",
+      "liens": { "alternative": ["frontend-design", "impeccable", "high-end-visual-design", "minimalist-ui", "industrial-brutalist-ui"], "remplace": ["design-taste-frontend-v1"] }
+    },
+    "design-taste-frontend-v1": {
+      "nom": "Ancienne version de Taste",
+      "role": "La v1 de la direction visuelle déduite du brief",
+      "specificite": "Gardée pour compatibilité. À ignorer sauf si la v2 déçoit."
+    },
+    "gpt-taste": {
+      "nom": "Taste pour GPT et Codex",
+      "role": "Variante durcie : mise en page tirée au hasard, structure AIDA, GSAP appuyé",
+      "specificite": "Écrite pour Codex. Sur Claude, préférer design-taste-frontend.",
+      "liens": { "alternative": ["design-taste-frontend"] }
+    },
+    "high-end-visual-design": {
+      "nom": "Esthétique d'agence haut de gamme",
+      "role": "Polices, espacements, ombres et micro-interactions qui donnent un rendu cher",
+      "specificite": "Une direction visuelle parmi d'autres : une seule par chantier.",
+      "liens": { "alternative": ["minimalist-ui", "industrial-brutalist-ui"] }
+    },
+    "minimalist-ui": {
+      "nom": "Minimalisme éditorial",
+      "role": "Monochrome chaud, contraste typographique, bento plat, à la Notion ou Linear",
+      "specificite": "Ni dégradé ni ombre lourde. Une seule direction visuelle par chantier.",
+      "liens": { "alternative": ["high-end-visual-design", "industrial-brutalist-ui"] }
+    },
+    "industrial-brutalist-ui": {
+      "nom": "Brutalisme industriel",
+      "role": "Grille suisse et esthétique de terminal, contrastes typographiques extrêmes",
+      "specificite": "Pour un tableau de bord dense ou un portfolio qui assume la rudesse.",
+      "liens": { "alternative": ["minimalist-ui", "high-end-visual-design"] }
+    },
+    "redesign-existing-projects": {
+      "nom": "Remise à niveau d'un site existant",
+      "role": "Audite le design en place, repère les tics d'IA et corrige sans tout réécrire",
+      "specificite": "Part de l'existant, au lieu d'imposer une direction neuve.",
+      "liens": { "alternative": ["impeccable"] }
+    },
+    "image-to-code": {
+      "nom": "De l'image au code",
+      "role": "Génère d'abord des images de référence, puis code pour s'en approcher",
+      "specificite": "Écrit pour Codex, qui génère des images. Sur Claude, fournir les images soi-même.",
+      "liens": { "complement": ["imagegen-frontend-web"] }
+    },
+    "imagegen-frontend-web": {
+      "nom": "Maquettes web en images",
+      "role": "Une image de référence par section de page",
+      "specificite": "Produit des images, pas du code. À enchaîner avec image-to-code.",
+      "liens": { "suite": ["image-to-code"] }
+    },
+    "imagegen-frontend-mobile": {
+      "nom": "Maquettes mobile en images",
+      "role": "Écrans d'application iOS et Android en images de référence",
+      "specificite": "Produit des images, pas du code."
+    },
+    "brandkit": {
+      "nom": "Planches d'identité de marque",
+      "role": "Génère des planches de charte, des systèmes de logo et des univers visuels",
+      "specificite": "Sort des images de présentation, pas un système de design codé."
+    },
+    "stitch-design-taste": {
+      "nom": "DESIGN.md pour Google Stitch",
+      "role": "Écrit un système de design lisible par un agent",
+      "specificite": "Écrit DESIGN.md à la racine et écrase celui d'impeccable sans prévenir.",
+      "liens": { "alternative": ["impeccable"] }
+    },
+    "full-output-enforcement": {
+      "nom": "Anti-troncature",
+      "role": "Force un code complet, sans placeholder ni « reste inchangé »",
+      "specificite": "Ne touche pas au design : se cumule avec n'importe quel autre skill."
+    },
+
+    "emil-design-eng": {
+      "nom": "Finition d'interface",
+      "role": "La philosophie d'Emil Kowalski : polish, composants, décisions d'animation",
+      "specificite": "Le skill principal du pack. Ne prescrit aucune palette, donc se pose sur n'importe quelle direction visuelle.",
+      "liens": { "complement": ["review-animations", "improve-animations"] }
+    },
+    "apple-design": {
+      "nom": "Mouvement à la Apple",
+      "role": "Ressorts interruptibles, gestes, glisser, feuilles, inertie",
+      "specificite": "Pour une interface pilotée au geste, plus que pour une page vitrine."
+    },
+    "review-animations": {
+      "nom": "Revue d'animations",
+      "role": "Relit le code d'animation avec une barre très haute",
+      "specificite": "Refuse par défaut : l'approbation se mérite. Ne corrige rien.",
+      "liens": { "complement": ["improve-animations"] }
+    },
+    "improve-animations": {
+      "nom": "Audit des animations",
+      "role": "Passe en revue le mouvement du site et rédige des plans d'action priorisés",
+      "specificite": "Lecture seule sur le code : il planifie, un autre exécute. Le plan 001 du portfolio en vient.",
+      "liens": { "suite": ["review-animations"], "complement": ["find-animation-opportunities"] }
+    },
+    "find-animation-opportunities": {
+      "nom": "Ce qui devrait bouger",
+      "role": "Repère les endroits sans animation qui en mériteraient une, et écarte le reste",
+      "specificite": "Propose des valeurs exactes, n'implémente rien.",
+      "liens": { "complement": ["improve-animations"] }
+    },
+    "animation-vocabulary": {
+      "nom": "Glossaire du mouvement",
+      "role": "Donne le terme exact d'un effet décrit avec des mots vagues",
+      "specificite": "Utile pour formuler une demande, pas pour coder."
+    },
+    "prototype": {
+      "nom": "Variantes à comparer",
+      "role": "Construit plusieurs versions d'un composant, à feuilleter en direct",
+      "specificite": "Ne se lance que sur appel explicite."
+    },
+    "pick-ui-library": {
+      "nom": "Choix de bibliothèque front",
+      "role": "Recommande la bibliothèque adaptée : graphiques, toasts, glisser-déposer, menus de commande",
+      "specificite": "Liste resserrée et tranchée, ne se lance que sur appel explicite."
+    },
+
+    "frontend-design": {
+      "nom": "Direction artistique avant le code",
+      "role": "Palette nommée, deux rôles typographiques, un élément signature",
+      "specificite": "Pose le parti pris avant la première ligne de code. Une seule direction visuelle par chantier.",
+      "liens": { "alternative": ["design-taste-frontend", "impeccable"] }
+    },
+    "web-design-guidelines": {
+      "nom": "Audit des règles d'interface Vercel",
+      "role": "Contrôle le code UI contre plus de 100 règles d'accessibilité, de performance et d'UX",
+      "specificite": "Liste, ne corrige pas. Les règles sont téléchargées à chaque passage."
+    },
+    "impeccable": {
+      "nom": "Atelier design Impeccable",
+      "role": "23 commandes : critique, grille, polish, audit, avec un détecteur sans LLM",
+      "specificite": "Éprouvé au banc du portfolio, 4/5 : sa doctrine vaut mieux que son outillage. Ses hooks restent coupés pendant les autres essais.",
+      "liens": { "alternative": ["design-taste-frontend", "frontend-design"] },
+      "pack": "pbakaus/impeccable"
+    },
+
+    "grill-me": {
+      "nom": "Interrogatoire de cadrage",
+      "role": "Une question à la fois, avec une réponse recommandée, jusqu'à ne rien laisser d'ouvert",
+      "specificite": "Ne se déclenche que sur « grille-moi », jamais d'office.",
+      "pack": "bibliotheque"
+    },
+    "cloture": {
+      "nom": "Clôture de session",
+      "role": "Enregistre l'état, le journal et la page de sujet du projet",
+      "specificite": "Sur « on clôture », « fin de session », « sauvegarde » ou /cloture.",
+      "pack": "bibliotheque"
+    }
+  }
+}

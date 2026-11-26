@@ -1,0 +1,517 @@
+@import "tailwindcss";
+
+/*
+ * Système visuel du dashboard : design system graphoo, en clair.
+ *
+ * Ce qui vient de graphoo :
+ *   · le teal de marque comme unique couleur d'accent, en #007a6d pour le
+ *     texte (la règle de la charte : vert sur fond clair = #007a6d, jamais
+ *     #009585, qui ne tient pas 4,5:1),
+ *   · la rampe neutre slate, #0f172a (« night ») pour l'encre,
+ *   · Outfit pour les titres, Nunito pour le texte courant,
+ *   · des rayons généreux, des ombres larges et diffuses,
+ *   · le verre dépoli sur les surfaces flottantes,
+ *   · l'anneau de focus teal et l'échelle de durées.
+ *
+ * Passé en clair le 2026-10-14, à la demande de Lois. Sur fond clair, le relief
+ * revient à l'ombre : une carte blanche se détache du fond slate-50 par une
+ * ombre douce et une bordure slate-200. Les états ne se distinguent jamais par
+ * la couleur seule : il y a toujours un libellé à côté. Chaque couleur de
+ * texte est mesurée à 4,5:1 au moins sur blanc.
+ */
+@theme {
+  /* ─── Neutres : la rampe slate de graphoo ───
+     fond = slate-50, la page. fond-2 = blanc, les cartes. fond-3 = slate-100,
+     ce qui se pose dans une carte (pastilles, code, survol). Les noms gardent
+     leur rôle d'avant, seules les valeurs ont changé : aucun composant n'a eu
+     besoin d'être réécrit. */
+  /* Toile légèrement teintée de lavande (2026-10-21, passe bento) : les tuiles
+     blanches s'en détachent sans bordure, comme dans les références. Le teal
+     texte y tient 4,52:1, le texte-3 4,95:1. Mesuré. */
+  --color-fond: #eceef5;
+  --color-fond-2: #ffffff;
+  --color-fond-3: #f1f5f9;
+  --color-bord: #e2e8f0;
+  --color-bord-vif: #cbd5e1;
+
+  --color-texte: #0f172a;
+  --color-texte-2: #475569;
+  /* #5b6779 et non le slate-500 (#64748b) : posé sur fond-3, le slate-500
+     tombe à 4,34:1, sous le seuil AA. Celui-ci tient 5,24:1. Mesuré. */
+  --color-texte-3: #5b6779;
+
+  /* ─── Accent de marque ───
+     `actif` = #007a6d, le teal texte de la charte (5,24:1 sur blanc).
+     `accent` s'en distingue par la luminosité, plus sombre (7,5:1), ce qui
+     tient aussi pour un œil qui ne sépare pas les verts. */
+  --color-actif: #007a6d;
+  --color-accent: #0b5f5c;
+
+  /* ─── Le vert secondaire, en surfaces ───
+     `vert` = #009585, le teal de marque : 3,72:1 sur blanc, donc réservé aux
+     formes (icônes en pastille, barres, filets), jamais au texte courant.
+     `vert-pale` est la surface teintée des éléments à mettre en avant,
+     `vert-bord` sa bordure. Le texte posé dessus reste en `actif` (#007a6d,
+     4,65:1 sur vert-pale). */
+  --color-vert: #009585;
+  --color-vert-pale: #e7f4f2;
+  --color-vert-bord: #b7dfd9;
+
+  /* ─── Tertiaire : la lavande ───
+     #d2d4ed, ajoutée le 2026-10-21. Couleur calme, sans valeur d'alerte : elle
+     porte ce qui attend sans presser (les compteurs « à trancher »), et la
+     pilule active du menu. Texte posé dessus : `encre` (12,2:1), `texte-2`
+     (5,2:1) ou `lavande-encre` (6,6:1), jamais le teal (3,6:1). */
+  --color-lavande: #d2d4ed;
+  --color-lavande-pale: #ebecf7;
+  --color-lavande-encre: #3b3f78;
+  /* L'encre ne bascule pas dans `.nuit` : c'est le texte posé sur une
+     surface claire au milieu d'un bloc sombre. */
+  --color-encre: #0f172a;
+
+  /* ─── États non-marque ───
+     Trois teintes écartées du teal (ambre, rouge, violet), assombries pour
+     tenir 4,5:1 en texte sur blanc. */
+  /* #8f5806 et non l'amber-700 (#a16207) : dans une pastille, l'ambre tombait
+     à 4,32:1. Celui-ci tient 5,42:1. */
+  --color-pause: #8f5806;
+  --color-bloque: #b91c1c;
+  --color-arbitrage: #7c3aed;
+  --color-termine: #5b6779;
+
+  /* ─── Typographie ───
+     Outfit porte les titres (700, comme dans style.css), Nunito le courant.
+     `--font-title` crée l'utilitaire `font-title`, le même nom que la classe
+     du portfolio : les deux projets parlent la même langue. */
+  --font-sans: "Nunito", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-title: "Outfit", ui-sans-serif, system-ui, sans-serif;
+
+  /* ─── Rayons ───
+     Graphoo arrondit large : 0,75rem pour un bouton, 1,5 à 2rem pour une
+     carte, 999px pour une pastille. Redéfinir les paliers ici suffit à faire
+     basculer les 40 `rounded-lg` / `rounded-xl` déjà posés dans les
+     composants : aucun n'a besoin d'être réécrit. */
+  --radius-lg: 0.75rem;
+  --radius-xl: 1.125rem;
+  --radius-2xl: 1.75rem;
+  /* Le rayon des tuiles bento : 28 à 32 px dans les références. */
+  --radius-bento: 1.75rem;
+
+  /* ─── Ombres ───
+     Larges et très diffuses, celles du portfolio (`0 20px 50px rgba(0,0,0,0.1)`),
+     teintées de l'encre slate. `--shadow-marque` est le halo teal du survol. */
+  --shadow-douce: 0 1px 2px rgb(15 23 42 / 0.05), 0 8px 24px rgb(15 23 42 / 0.06);
+  --shadow-haute: 0 2px 4px rgb(15 23 42 / 0.06), 0 20px 50px rgb(15 23 42 / 0.10);
+  --shadow-marque: 0 8px 24px rgb(0 149 133 / 0.25);
+
+  /* ─── Durées et courbe, reprises telles quelles de style.css ─── */
+  --dur-micro: 200ms;
+  --dur-reveal: 650ms;
+  --dur-page: 350ms;
+  --ease-sortie: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/*
+ * Bloc « nuit » : le bleu profond de graphoo (#0f172a, le `night` du
+ * portfolio) pour ce qu'on veut mettre en avant, le menu et les en-têtes.
+ *
+ * La classe redéfinit les jetons pour tout ce qu'elle contient : les
+ * utilitaires Tailwind lisent `var(--color-…)`, donc un composant posé dans
+ * un bloc nuit passe en sombre sans une ligne changée. Valeurs mesurées sur
+ * #0f172a : texte le plus pâle 6,96:1, teal clair (#90ceca, le primary-light
+ * de graphoo) 10,1:1.
+ */
+.nuit {
+  --color-fond: #0f172a;
+  --color-fond-2: #18233a;
+  --color-fond-3: #1e293b;
+  --color-bord: #1e293b;
+  --color-bord-vif: #334155;
+
+  --color-texte: #f8fafc;
+  --color-texte-2: #cbd5e1;
+  --color-texte-3: #94a3b8;
+
+  --color-actif: #90ceca;
+  --color-accent: #b9e3df;
+  --color-vert: #2fb3a3;
+  --color-vert-pale: #12303a;
+  --color-vert-bord: #1f4e52;
+  --color-pause: #fbbf24;
+  --color-bloque: #fca5a5;
+  --color-arbitrage: #c4b5fd;
+  --color-termine: #94a3b8;
+  --color-lavande-pale: #262c4a;
+  --color-lavande-encre: #d2d4ed;
+
+  /* Sur fond sombre, une ombre ne creuse plus rien : le relief passe par le
+     cran de surface. */
+  --shadow-douce: none;
+
+  color-scheme: dark;
+  background-color: var(--color-fond);
+  color: var(--color-texte);
+}
+
+/*
+ * Thème de nuit, de 22 h à 8 h (`lib/theme.js` pose `data-theme="nuit"`).
+ *
+ * On ne descend pas plus sombre que le bleu nuit de la marque : la page
+ * prend #0f172a, les tuiles un cran au-dessus. Les blocs `.nuit` (menu,
+ * en-têtes, radio), qui portent ce bleu le jour, passent alors à une nuance
+ * plus claire et plus bleue pour rester à part. Les jetons de texte et
+ * d'accent sont ceux de `.nuit`, déjà mesurés.
+ *
+ * `encre` ne bascule pas : c'est le texte posé sur les surfaces claires
+ * (pilules lavande, boutons blancs), qui le restent de nuit.
+ */
+html[data-theme="nuit"] {
+  color-scheme: dark;
+  --color-fond: #0f172a;
+  --color-fond-2: #18233a;
+  --color-fond-3: #1e293b;
+  --color-bord: #1e293b;
+  --color-bord-vif: #334155;
+
+  --color-texte: #f8fafc;
+  --color-texte-2: #cbd5e1;
+  --color-texte-3: #94a3b8;
+
+  --color-actif: #90ceca;
+  --color-accent: #b9e3df;
+  --color-vert: #2fb3a3;
+  --color-vert-pale: #12303a;
+  --color-vert-bord: #1f4e52;
+  --color-pause: #fbbf24;
+  --color-bloque: #fca5a5;
+  --color-arbitrage: #c4b5fd;
+  --color-termine: #94a3b8;
+  --color-lavande-pale: #262c4a;
+  --color-lavande-encre: #d2d4ed;
+
+  --shadow-douce: none;
+  --shadow-haute: 0 2px 4px rgb(0 0 0 / 0.2), 0 20px 50px rgb(0 0 0 / 0.35);
+}
+/* La nuance plus claire des blocs nuit. Texte le plus pâle (#94a3b8) sur
+   #1e2b4a : 5,6:1. */
+html[data-theme="nuit"] .nuit {
+  --color-fond: #1e2b4a;
+  --color-fond-2: #26355a;
+  --color-fond-3: #2c3c62;
+  --color-bord: #2c3c62;
+  --color-bord-vif: #3d5080;
+}
+html[data-theme="nuit"] .bento {
+  box-shadow: none;
+}
+/* Une surface qui reste claire de nuit (la tuile lavande de la vue
+   générale) : elle reprend les jetons de texte du jour. */
+html[data-theme="nuit"] .clair {
+  --color-texte: #0f172a;
+  --color-texte-2: #475569;
+  --color-texte-3: #5b6779;
+  --color-fond: #eceef5;
+  --color-lavande-encre: #3b3f78;
+  color: var(--color-texte);
+}
+/* La bascule de 22 h et de 8 h se fait en fondu, jamais au chargement. */
+html.bascule-theme,
+html.bascule-theme * {
+  transition: background-color 700ms ease, color 700ms ease, border-color 700ms ease !important;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+/* Base 16px et lissage, comme le `html` du portfolio. */
+html {
+  /* Formulaires, barres de défilement et cases natives en clair. */
+  color-scheme: light;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: var(--color-fond);
+  color: var(--color-texte);
+  font-family: var(--font-sans);
+  /* 1.6 : l'interligne de lecture du portfolio. Les titres le rattrapent
+     eux-mêmes avec leurs `leading-none` / `leading-tight`. */
+  line-height: 1.6;
+}
+
+/* Outfit en 700 partout où il apparaît : la règle `h1,h2,h3,h4,.font-title`
+   de style.css, réduite à la classe puisque les titres d'ici la portent. */
+.font-title {
+  font-family: var(--font-title);
+  font-weight: 700;
+}
+
+/*
+ * ─── Échelle typographique : six niveaux, des écarts francs ───
+ * Chaque niveau se reconnaît à la taille ET à la police ou la casse, jamais à
+ * un seul de ces signaux. Rapport d'environ 1,4 entre deux niveaux de titre.
+ *
+ *   t-surtitre  12 px, capitales espacées, vert : ce qui annonce un titre de page
+ *   t-display   36 à 52 px, Outfit 700 : le titre de la page, un seul par écran
+ *   t-chapo     17 px, texte-2 : la phrase qui suit le titre de page
+ *   t-h2        24 px, Outfit 700 : titre de section
+ *   t-h3        17 px, Outfit 600 : titre de carte
+ *   t-label     11 px, capitales espacées, vert : titre d'un bloc dans une carte
+ */
+.t-surtitre {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-actif);
+  line-height: 1.4;
+}
+.t-display {
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: clamp(36px, 3.6vw, 52px);
+  line-height: 1.04;
+  letter-spacing: -0.015em;
+  color: var(--color-texte);
+}
+.t-chapo {
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--color-texte-2);
+}
+.t-h2 {
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 1.2;
+  letter-spacing: -0.005em;
+  color: var(--color-texte);
+}
+.t-h3 {
+  font-family: var(--font-title);
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 1.3;
+  color: var(--color-texte);
+}
+.t-label {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-actif);
+  line-height: 1.4;
+}
+
+/* Anneau de focus teal, repris de style.css (2px, offset 3px).
+   Le `rounded` d'origine est retiré : les cibles d'ici sont déjà arrondies et
+   forcer 4px écraserait l'arrondi des pastilles. */
+:focus-visible {
+  outline: 2px solid var(--color-actif);
+  outline-offset: 3px;
+}
+
+/* Chiffres alignés en colonne dans les tuiles et les tableaux. */
+.tabulaire {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Surface en verre dépoli : le `.glass-card` et l'`.offcanvas-sidebar` du
+   portfolio, fond blanc translucide.
+   Le repli sans `backdrop-filter` reste lisible, le fond y est simplement
+   opaque. */
+.verre {
+  background-color: color-mix(in oklab, var(--color-fond-2) 72%, transparent);
+}
+
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .verre {
+    -webkit-backdrop-filter: blur(20px) saturate(1.4);
+    backdrop-filter: blur(20px) saturate(1.4);
+  }
+}
+
+/* Barre de défilement discrète, cohérente avec le fond. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-bord-vif) transparent;
+}
+
+/* Gabarit des pages projet : une seule grille pour toutes.
+   `minmax(0, …)` et pas `1fr` nu : une colonne `fr` ne descend jamais sous
+   son contenu le plus large, et un long nom de branche suffisait à écraser
+   la colonne principale. Ici, c'est la grille qui fixe les largeurs, le
+   contenu s'y plie. */
+.grille-projet {
+  display: grid;
+  gap: 1.75rem;
+}
+
+/* Deux colonnes seulement quand la zone de contenu les tient, mesurée sur
+   elle-même et non sur l'écran : la barre latérale prend déjà 200 px, et
+   un seuil d'écran laissait la colonne principale à 400 px. En dessous,
+   une seule colonne pleine largeur. */
+@container contenu (min-width: 40rem) {
+  .grille-projet {
+    grid-template-columns: minmax(0, 1fr) 300px;
+  }
+}
+
+/* La place de la barre de défilement est réservée même quand la page est
+   courte : sans ça, une page qui défile perd une dizaine de pixels de
+   largeur et ses colonnes ne tombent plus au même endroit que les autres. */
+.zone-defilante {
+  scrollbar-gutter: stable;
+}
+
+/* Le conteneur mesuré par `.grille-projet`. Posé sur la page projet et pas
+   sur <main> : un conteneur de requêtes devient le repère des éléments
+   `fixed` qu'il contient, et la bande de sélection de la page Outils se
+   serait collée au bas du contenu au lieu du bas de l'écran. */
+.page-projet {
+  container: contenu / inline-size;
+}
+
+@keyframes monter {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.monter {
+  animation: monter var(--dur-page) var(--ease-sortie) backwards;
+}
+
+/* ─── Progression et clôture des étapes ───
+   L'anneau avance avec la courbe de sortie maison : vite au départ, posé à
+   l'arrivée, ce qui donne au geste de clôture sa petite récompense. */
+.anneau-trait {
+  transition: stroke-dashoffset var(--dur-reveal) var(--ease-sortie), stroke var(--dur-micro);
+}
+
+/* La case cochée gonfle d'un cran puis revient. */
+@keyframes coche {
+  0%   { transform: scale(0.6); }
+  60%  { transform: scale(1.18); }
+  100% { transform: scale(1); }
+}
+.case-cochee {
+  animation: coche 320ms var(--ease-sortie);
+}
+
+/* L'étape cochée se barre de gauche à droite, puis s'efface et se replie.
+   Le trait est un dégradé qu'on fait grandir, pas un `line-through` : un
+   `text-decoration` ne s'anime pas. */
+.etape-texte {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: 0 55%;
+  background-repeat: no-repeat;
+  background-size: 0 1px;
+}
+.etape-sortante .etape-texte {
+  animation: barrer 260ms var(--ease-sortie) forwards;
+}
+@keyframes barrer {
+  to { background-size: 100% 1px; }
+}
+.etape-sortante {
+  animation: sortir 300ms var(--ease-sortie) 420ms forwards;
+}
+@keyframes sortir {
+  to { opacity: 0; transform: translateX(8px); }
+}
+
+/* L'éclat d'un palier : douze traits partent du centre de l'anneau. */
+.eclat span {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 2px;
+  height: 9px;
+  margin: -4.5px 0 0 -1px;
+  border-radius: 2px;
+  background: var(--color-accent);
+  opacity: 0;
+  transform: rotate(var(--angle)) translateY(0);
+  animation: eclat 720ms var(--ease-sortie) var(--delai) forwards;
+}
+.eclat span:nth-child(3n) { background: var(--color-actif); }
+.eclat span:nth-child(4n) { background: var(--color-pause); }
+@keyframes eclat {
+  0%   { opacity: 1; transform: rotate(var(--angle)) translateY(-26px) scaleY(0.4); }
+  100% { opacity: 0; transform: rotate(var(--angle)) translateY(-54px) scaleY(1); }
+}
+
+.palier-annonce {
+  animation: monter var(--dur-page) var(--ease-sortie) backwards;
+}
+
+/* Les chiffres du bandeau « depuis ta dernière visite » montent en place. */
+@keyframes chiffre {
+  from { opacity: 0; transform: translateY(40%); }
+  to   { opacity: 1; transform: none; }
+}
+.chiffre-monte {
+  display: inline-block;
+  animation: chiffre 500ms var(--ease-sortie) backwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-micro: 0ms;
+    --dur-reveal: 0ms;
+    --dur-page: 0ms;
+  }
+  .monter { animation: none; }
+  .case-cochee, .etape-sortante, .chiffre-monte, .palier-annonce { animation: none; }
+  .etape-sortante .etape-texte { animation: none; background-size: 100% 1px; }
+  .eclat { display: none; }
+  * { transition-duration: 0.01ms !important; }
+}
+
+/* ─── Bento ───
+   La tuile des pages Accueil, Vue générale et À trancher : blanche, grand
+   rayon, pas de bordure, ombre à peine posée. La toile teintée suffit à la
+   détacher. */
+.bento {
+  border-radius: var(--radius-bento);
+  background: var(--color-fond-2);
+  box-shadow: 0 1px 2px rgb(15 23 42 / 0.04), 0 12px 32px -12px rgb(15 23 42 / 0.10);
+}
+.bento-lien {
+  transition: transform var(--dur-micro) var(--ease-sortie), box-shadow var(--dur-micro) var(--ease-sortie);
+}
+.bento-lien:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 4px rgb(15 23 42 / 0.05), 0 20px 44px -14px rgb(15 23 42 / 0.18);
+}
+.bento-lien:active {
+  transform: scale(0.985);
+}
+
+/* Le bouton rond en coin de tuile, la flèche des références. Il tourne d'un
+   huitième au survol de la tuile : le geste dit « on y va ». */
+.rond-fleche {
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 999px;
+  transition: transform var(--dur-micro) var(--ease-sortie), background-color var(--dur-micro);
+}
+.bento-lien:hover .rond-fleche {
+  transform: rotate(45deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bento-lien:hover, .bento-lien:active { transform: none; }
+  .bento-lien:hover .rond-fleche { transform: none; }
+}
+
+@keyframes fondu {
+  from { opacity: 0; }
+}

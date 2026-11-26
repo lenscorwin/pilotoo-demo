@@ -1,0 +1,352 @@
+{
+  "_doc": "Cibles du dashboard. Exemple de configuration : adapter les chemins à sa machine, puis relancer le scan. Aucune modification de code nécessaire.",
+  "racinesAutoDecouvertes": [
+    "~/Projets"
+  ],
+  "ciblesManuelles": [
+    {
+      "chemin": "~/Projets/graphoo/graphoo-v2",
+      "nom": "graphoo.fr",
+      "domaine": "graphoo",
+      "alias": [
+        "graphoo-v2",
+        "graphoo v2",
+        "portfolio v2"
+      ]
+    },
+    {
+      "chemin": "~/Projets/graphoo",
+      "nom": "Graphoo Atelier",
+      "domaine": "graphoo",
+      "_doc_essais": "Un projet qui sert de terrain d'essai déclare ici son banc. Les essais restent dans le projet où ils sont menés : le contexte fait partie du résultat.",
+      "essais": {
+        "banc": "banc-essai/banc-essai-design.md",
+        "verdicts": "banc-essai/essais-design"
+      },
+      "_doc_alias": "Noms sous lesquels ce projet apparaît dans le champ « projet » des retours d'usage des fiches SKILLS/. Sert à savoir si un essai a été reporté. Ceux-ci viennent du banc, mené sur le portfolio v1.",
+      "alias": [
+        "portfolio",
+        "portfolio & digital card",
+        "portfolio-graphoo",
+        "graphoo"
+      ],
+      "_doc_sousProjets": "Dossiers de la racine montrés comme sous-projets : relevé disque, git et etat.md s'ils existent. Un dossier suivi comme projet à part entière (graphoo-v2) n'est pas listé ici : le scanner l'écarte déjà du relevé de la racine.",
+      "sousProjets": [
+        {
+          "dossier": "banc-essai",
+          "role": "Banc d'essai des skills design"
+        },
+        {
+          "dossier": "video",
+          "role": "Chantier motion design"
+        },
+        {
+          "dossier": "design-system",
+          "role": "Doc visuelle du design system"
+        },
+        {
+          "dossier": "ma-web",
+          "role": "Maquette e-commerce"
+        },
+        {
+          "dossier": "agents",
+          "role": "Mini-lib d'agents et de skills"
+        }
+      ]
+    }
+  ],
+  "_doc_icones": "Icône de chaque projet, par id, parmi les noms de src/web/src/lib/icones.js. Un `icone:` dans le frontmatter de l'etat.md l'emporte. Sans rien, c'est l'icône du domaine.",
+  "icones": {
+    "pilotoo": "Radar",
+    "graphoo-v2": "IdCard",
+    "graphoo": "Hexagon",
+    "skills-lib": "Library",
+    "bot-conversationnel": "BotMessageSquare"
+  },
+  "exclusions": [],
+  "catalogueOutils": {
+    "_doc": "Source des fiches outils affichées dans la vue Outils.",
+    "dossierFiches": "~/Projets/Skills-Lib/SKILLS",
+    "index": "~/Projets/Skills-Lib/SKILLS/SKILLS.md"
+  },
+  "domainesOutils": {
+    "_doc": "Filtres thématiques de la page Outils. Un outil est rangé par mots-clés cherchés dans son nom, son type, son TL;DR et sa fonction : il peut appartenir à plusieurs domaines. « forcer » a le dernier mot quand la déduction se trompe.",
+    "regles": {
+      "design": {
+        "libelle": "Design & UI",
+        "motifs": [
+          "design",
+          "ui",
+          "ux",
+          "composant",
+          "palette",
+          "typo",
+          "esth",
+          "shadcn",
+          "figma",
+          "maquette",
+          "interface",
+          "landing",
+          "grille",
+          "layout",
+          "brand"
+        ]
+      },
+      "video": {
+        "libelle": "Vidéo & motion",
+        "motifs": [
+          "vidéo",
+          "video",
+          "mp4",
+          "gif",
+          "anim",
+          "motion",
+          "timeline",
+          "rendu local",
+          "scroll pilote"
+        ]
+      },
+      "navigateur": {
+        "libelle": "Navigateur & tests",
+        "motifs": [
+          "navigateur",
+          "headless",
+          "playwright",
+          "chrome",
+          "devtools",
+          "e2e",
+          "page réelle",
+          "cdp",
+          "lighthouse",
+          "perf"
+        ]
+      },
+      "accessibilite": {
+        "libelle": "Accessibilité",
+        "motifs": [
+          "wcag",
+          "accessibilit",
+          "a11y"
+        ]
+      },
+      "documents": {
+        "libelle": "Documents",
+        "motifs": [
+          "word",
+          "excel",
+          "slides",
+          "pdf",
+          "docx",
+          "xlsx",
+          "pptx",
+          "ocr",
+          "csv"
+        ]
+      },
+      "memoire": {
+        "libelle": "Obsidian & mémoire",
+        "motifs": [
+          "obsidian",
+          "vault",
+          "wiki",
+          "graphe",
+          "mémoire",
+          "contexte",
+          "frontmatter",
+          "pkm",
+          "karpathy"
+        ]
+      },
+      "redaction": {
+        "libelle": "Rédaction",
+        "motifs": [
+          "écriture",
+          "rédac",
+          "copy",
+          "tics d",
+          "slop",
+          "cadrage",
+          "entretien",
+          "une question à la fois"
+        ]
+      },
+      "business": {
+        "libelle": "Business & marketing",
+        "motifs": [
+          "marketing",
+          "business",
+          "cro",
+          "jtbd",
+          "pme",
+          "vente",
+          "campagne",
+          "concurrent"
+        ]
+      },
+      "image": {
+        "libelle": "Image & PAO",
+        "motifs": [
+          "photoshop",
+          "illustrator",
+          "indesign",
+          "adobe",
+          "retouche",
+          "asset",
+          "image"
+        ]
+      },
+      "outillage": {
+        "libelle": "Outillage & méthode",
+        "motifs": [
+          "plugin",
+          "méthode",
+          "annuaire",
+          "registre",
+          "proxy",
+          "token",
+          "récurrent",
+          "différé",
+          "kit",
+          "installer"
+        ]
+      }
+    },
+    "forcer": {
+      "motion": [
+        "design",
+        "video"
+      ],
+      "remotion": [
+        "video"
+      ],
+      "hyperframes": [
+        "video"
+      ],
+      "scroll-world": [
+        "design",
+        "video"
+      ],
+      "emil-kowalski": [
+        "design",
+        "video"
+      ],
+      "github": [
+        "outillage"
+      ],
+      "vercel": [
+        "outillage"
+      ],
+      "rtk": [
+        "outillage"
+      ],
+      "schedule": [
+        "outillage"
+      ],
+      "mode-dormant": [
+        "outillage"
+      ],
+      "create-cowork-plugin": [
+        "outillage"
+      ],
+      "cowork-plugin-customizer": [
+        "outillage"
+      ],
+      "graphify": [
+        "memoire",
+        "outillage"
+      ],
+      "designrocket": [
+        "design"
+      ],
+      "impeccable": [
+        "design",
+        "accessibilite"
+      ],
+      "web-design-guidelines": [
+        "design",
+        "accessibilite"
+      ],
+      "wcag-audit": [
+        "accessibilite"
+      ],
+      "context-engineering": [
+        "memoire"
+      ],
+      "grill-me": [
+        "redaction",
+        "outillage"
+      ],
+      "stop-slop": [
+        "redaction"
+      ],
+      "wondelai": [
+        "business"
+      ],
+      "bencium-design": [
+        "design"
+      ],
+      "playwright": [
+        "navigateur"
+      ],
+      "figma": [
+        "design"
+      ],
+      "marketing-corey-haines": [
+        "business",
+        "redaction"
+      ],
+      "claude-pme-workflows": [
+        "business"
+      ],
+      "21st-dev-magic": [
+        "design"
+      ],
+      "shadcn": [
+        "design"
+      ],
+      "shadcn-ui": [
+        "design"
+      ],
+      "design-taste-frontend": [
+        "design"
+      ],
+      "taste": [
+        "design"
+      ],
+      "adobe-creativity": [
+        "image",
+        "design"
+      ],
+      "adobe-mcp-desktop": [
+        "image"
+      ],
+      "ui-ux-pro-max": [
+        "design"
+      ],
+      "frontend-design": [
+        "design"
+      ]
+    }
+  },
+  "usage": {
+    "_doc": "Usage réel des outils, lu dans l'historique des sessions Claude Code (~/.claude/projects). « binaires » : commandes shell suivies, et la fiche à laquelle chacune se rattache. « ignorer » : outils appelés qu'on ne veut pas voir réclamer une évaluation. Voir wiki/usage.md.",
+    "binaires": {
+      "hyperframes": "hyperframes",
+      "ffmpeg": "hyperframes",
+      "ffprobe": "hyperframes",
+      "graphify": "graphify",
+      "remotion": "remotion",
+      "impeccable": "impeccable",
+      "lighthouse": "chrome-devtools",
+      "playwright": "playwright",
+      "gh": "github"
+    },
+    "ignorer": []
+  },
+  "seuils": {
+    "_doc": "Jours sans modification au-delà desquels un projet déclaré actif est signalé comme dormant. joursAvantOutilInactif : au-delà, un outil n'est plus compté comme en usage sur le projet.",
+    "joursAvantDormant": 30,
+    "joursAvantFicheOutilPerimee": 180,
+    "joursAvantOutilInactif": 21
+  }
+}

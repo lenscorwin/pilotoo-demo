@@ -1,0 +1,16 @@
+# Dépendances et compilations
+node_modules/
+dist/
+dist-demo/
+
+# Sorties du scanner : propres à chaque machine, jamais versionnées
+data/
+
+# Sons sous licence restrictive : usage local seulement
+src/web/public/sons/
+
+# Graphify
+graphify-out/
+
+# Système
+.DS_Store
