@@ -272,7 +272,7 @@ function FicheProjet({ p, onClick, delai, versTrancher, visite, suivi }) {
         </div>
       )}
 
-      <div className="mt-auto flex items-center gap-3 whitespace-nowrap border-t border-bord pt-3 text-[11px] text-texte-3">
+      <div className="mt-auto flex flex-wrap items-center gap-x-3 gap-y-2 whitespace-nowrap border-t border-bord pt-3 text-[11px] text-texte-3">
         <span className="flex items-center gap-1.5">
           <Clock size={12} strokeWidth={2} />
           {depuis(p.disque?.derniereModif)}
@@ -301,9 +301,10 @@ function FicheProjet({ p, onClick, delai, versTrancher, visite, suivi }) {
             {nbArbitrages} à trancher
           </button>
         )}
-        <span className="ml-auto flex min-w-0 items-center gap-1.5 overflow-hidden">
+        <span className="ml-auto flex flex-wrap items-center justify-end gap-1.5">
           {/* « hors méthode » reste affiché, en plus discret : c'est ce qui
-              signale les projets à migrer vers un starter. */}
+              signale les projets à migrer vers un starter. Les étiquettes
+              passent à la ligne plutôt que d'être coupées. */}
           {p.methode && (
             <span
               className={`rounded px-1.5 py-0.5 ${
