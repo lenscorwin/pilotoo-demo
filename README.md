@@ -40,7 +40,7 @@ Je n'avais pas encore travaillé en équipe avec des pull requests. Alors j'ai a
 - [x] Socle : le code de l'outil réel, configuration d'exemple
 - [x] Vérification automatique à chaque PR
 - [x] Contrôle de sensibilité sur tout le dépôt, à chaque PR
-- [ ] Mode démo : l'interface lit un instantané au lieu du serveur
+- [x] Mode démo : l'interface lit un instantané au lieu du serveur
 - [ ] Données de démonstration nettoyées
 - [ ] Fenêtres Finder et Obsidian simulées pour ouvrir les fichiers
 - [ ] Accueil en visite guidée
@@ -65,7 +65,18 @@ Adapter d'abord les chemins de `config/targets.json` à sa machine. Un projet es
 | `npm run serve` | sert le dashboard en local, en lecture seule |
 | `npm run dev` | serveur et rechargement à chaud |
 | `npm run build` | compile l'interface |
+| `npm run build:demo` | compile la démo statique dans `dist-demo/`, sans serveur, puis lance le contrôle |
+| `npm run dev:demo` | démo en rechargement à chaud |
 | `npm run controle:sensibilite` | relit tout le dépôt à la recherche d'une donnée sensible |
+
+## Le mode démo
+
+La même interface sert l'outil réel et la vitrine. Compilée avec `--mode demo`, elle ne parle plus au serveur :
+
+- l'état vient d'un instantané figé, `src/web/public/demo/state.json`, ajouté avec les données de démonstration ;
+- le bouton « Rafraîchir » joue le scan ;
+- un clic « ouvrir » ne sort pas du navigateur, il est confié aux fenêtres simulées ;
+- le site produit est statique, avec des chemins relatifs : il se dépose tel quel sur un hébergement simple.
 
 ## Le contrôle de sensibilité
 
