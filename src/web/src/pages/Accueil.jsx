@@ -124,7 +124,8 @@ export default function Accueil({ etat, aller }) {
               {ecart && (
                 <>
                   {" "}
-                  Ici, une fiche annonce {ecart.declare} % quand ses cases cochées disent {ecart.constate} %.
+                  Ici, la fiche de {ecart.nom} annonce {ecart.declare} % alors que ses cases cochées disent{" "}
+                  {ecart.constate} % : l'outil signale l'écart au lieu de choisir entre les deux.
                 </>
               )}
             </p>
@@ -253,7 +254,7 @@ function premierEcart(projets) {
   for (const p of projets) {
     for (const a of p.alertes ?? []) {
       const m = String(a.titre ?? a.texte ?? "").match(/Avancement déclaré (\d+) %.*\((\d+) %/);
-      if (m) return { declare: m[1], constate: m[2] };
+      if (m) return { nom: p.nom, declare: m[1], constate: m[2] };
     }
   }
   return null;
