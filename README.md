@@ -4,6 +4,10 @@
 
 > Ce dépôt est la version publique et figée de MyDashboard Projets. L'outil réel lit mon disque ; la démo lit un instantané du 25/11/2026, nettoyé et complété. **Données de démonstration, méthode et outil réels.**
 
+**[Ouvrir la démo en ligne](https://dashboard.graphoo.fr)**, à parcourir sur un écran d'ordinateur.
+
+![Vue générale de MyDashboard Projets : chaque projet en une tuile, avec sa synthèse, son avancement et ce qui a changé depuis la dernière visite.](docs/vue-generale.png)
+
 ## Le problème
 
 Je mène une dizaine de projets en parallèle, design, code et outillage IA. Je ne savais plus où en était chacun, ni quels outils j'avais installés, testés ou abandonnés. Les notes étaient là, éparpillées dans chaque dossier, mais aucune vue d'ensemble.
