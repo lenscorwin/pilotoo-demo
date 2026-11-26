@@ -1,0 +1,95 @@
+{
+  "depuis": "2026-11-17T09:00:00+01:00",
+  "jusqua": "2026-11-24T10:00:00+01:00",
+  "projets": [
+    {
+      "id": "graphoo-v2",
+      "nom": "graphoo.fr",
+      "closes": [
+        "Section IA relue, images envoyées par FTP, publiée (2026-11-17)"
+      ],
+      "tranches": [],
+      "sessions": [
+        "Démo e-commerce : menu boutique refait en deux familles, hiérarchie typographique revue"
+      ],
+      "jalons": [
+        {
+          "type": "palier",
+          "valeur": 100
+        }
+      ],
+      "pourcentage": 100
+    },
+    {
+      "id": "bot-conversationnel",
+      "nom": "Bot conversationnel",
+      "closes": [
+        "Maquetter le parcours de prise de rendez-vous"
+      ],
+      "tranches": [],
+      "sessions": [],
+      "jalons": [
+        {
+          "type": "palier",
+          "valeur": 50
+        }
+      ],
+      "pourcentage": 53
+    },
+    {
+      "id": "graphoo",
+      "nom": "Graphoo Atelier",
+      "closes": [
+        "Premier commit de agents/ (190e3f5, 1 112 fichiers, 2026-11-19)"
+      ],
+      "tranches": [],
+      "sessions": [],
+      "jalons": [
+        {
+          "type": "palier",
+          "valeur": 25
+        }
+      ],
+      "pourcentage": 25
+    },
+    {
+      "id": "design-system",
+      "nom": "Design System Graphoo",
+      "closes": [
+        "Réunir les jetons du site et de MyDashboard Projets en deux thèmes",
+        "Recréer 11 composants avec un aperçu en direct"
+      ],
+      "tranches": [],
+      "sessions": [
+        "Design system unifié : jetons jour et nuit, 11 composants, arbitrages entre le site et MyDashboard Projets"
+      ],
+      "jalons": [
+        {
+          "type": "palier",
+          "valeur": 100
+        }
+      ],
+      "pourcentage": 100
+    },
+    {
+      "id": "skills-lib",
+      "nom": "Library AI",
+      "closes": [],
+      "tranches": [],
+      "sessions": [],
+      "jalons": [
+        {
+          "type": "palier",
+          "valeur": 100
+        }
+      ],
+      "pourcentage": 100
+    }
+  ],
+  "total": {
+    "closes": 5,
+    "tranches": 0,
+    "sessions": 2,
+    "jalons": 5
+  }
+}
