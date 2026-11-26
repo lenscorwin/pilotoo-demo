@@ -41,7 +41,7 @@ Je n'avais pas encore travaillé en équipe avec des pull requests. Alors j'ai a
 - [x] Vérification automatique à chaque PR
 - [x] Contrôle de sensibilité sur tout le dépôt, à chaque PR
 - [x] Mode démo : l'interface lit un instantané au lieu du serveur
-- [ ] Données de démonstration nettoyées
+- [x] Données de démonstration nettoyées
 - [ ] Fenêtres Finder et Obsidian simulées pour ouvrir les fichiers
 - [ ] Accueil en visite guidée
 - [ ] Graphe du code : le code de l'outil et de graphoo.fr vu par Graphify, à parcourir en grand
@@ -77,6 +77,17 @@ La même interface sert l'outil réel et la vitrine. Compilée avec `--mode demo
 - le bouton « Rafraîchir » joue le scan ;
 - un clic « ouvrir » ne sort pas du navigateur, il est confié aux fenêtres simulées ;
 - le site produit est statique, avec des chemins relatifs : il se dépose tel quel sur un hébergement simple.
+
+## Les données de la démo
+
+L'instantané (`src/web/public/demo/`) est produit par un script qui reste dans le dépôt privé de l'outil : les données brutes n'entrent jamais ici. Ce script :
+
+- garde une partie des projets et retire tout ce qui touche aux autres ;
+- ajoute un projet, le design system de graphoo.fr, mesuré sur son vrai dossier ;
+- remplace les chemins de la machine par `~/Projets/...` ;
+- remplace les messages de session par une version courte et professionnelle, sens conservé ;
+- complète les retours d'usage d'outils réellement installés et utilisés ;
+- refuse d'écrire s'il reste un mot de sa liste noire.
 
 ## Le contrôle de sensibilité
 

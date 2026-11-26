@@ -6,7 +6,7 @@ import React from "react";
 import { MonitorSmartphone, ArrowUpRight } from "lucide-react";
 
 /** Seul lien de contact de la démo. Une ligne à changer si l'adresse bouge. */
-export const CONTACT_URL = "https://graphoo.fr/#contact";
+export const CONTACT_URL = "https://graphoo.fr/#/card";
 
 /** Date en toutes lettres, ou rien si la valeur n'est pas une date lisible. */
 function dateLongue(iso) {
