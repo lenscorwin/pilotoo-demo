@@ -20,7 +20,7 @@ Je mène une dizaine de projets en parallèle, design, code et outillage IA. Je 
 - **Accueil** : une visite guidée en cinq étapes, du problème à la routine d'une session, chaque étape menant au vrai écran.
 - **Vue générale** : chaque projet en une tuile, avec sa synthèse, son avancement et ce qui a changé depuis la dernière visite.
 - **À trancher** : toutes les décisions en attente, tous projets confondus.
-- **Page projet** : suivi, graphe git, copies de travail en cours, outils branchés, essais menés, usage réel des outils.
+- **Page projet** : suivi, graphe git, copies de travail en cours, graphe du code à parcourir en grand, outils branchés, essais menés, usage réel des outils.
 - **Outils** : le catalogue transverse, croisé avec les fiches, les projets et les retours d'essai.
 
 ## Comment je travaille
@@ -45,7 +45,7 @@ Je n'avais pas encore travaillé en équipe avec des pull requests. Alors j'ai a
 - [x] Données de démonstration nettoyées
 - [x] Fenêtres Finder et Obsidian simulées pour ouvrir les fichiers
 - [x] Accueil en visite guidée
-- [ ] Graphe du code : le code de l'outil et de graphoo.fr vu par Graphify, à parcourir en grand
+- [x] Graphe du code : le code de l'outil et de graphoo.fr vu par Graphify, à parcourir en grand
 
 ## Stack
 
@@ -76,7 +76,7 @@ La même interface sert l'outil réel et la vitrine. Compilée avec `--mode demo
 
 - l'état vient d'un instantané figé, `src/web/public/demo/state.json`, ajouté avec les données de démonstration ;
 - le bouton « Rafraîchir » joue le scan ;
-- un clic « ouvrir » ne sort pas du navigateur : un fichier markdown s'ouvre dans une fenêtre façon Obsidian, un dossier dans une fenêtre façon Finder. 19 fichiers sont montrés en entier, les autres en aperçu ;
+- un clic « ouvrir » ne sort pas du navigateur : un fichier markdown s'ouvre dans une fenêtre façon Obsidian, un dossier dans une fenêtre façon Finder, un graphe du code dans une fenêtre où l'on zoome et suit les liens. 19 fichiers sont montrés en entier, les autres en aperçu ;
 - le site produit est statique, avec des chemins relatifs : il se dépose tel quel sur un hébergement simple.
 
 ## Les données de la démo
@@ -85,6 +85,7 @@ L'instantané (`src/web/public/demo/`) est produit par un script qui reste dans 
 
 - garde une partie des projets et retire tout ce qui touche aux autres ;
 - ajoute un projet, le design system de graphoo.fr, mesuré sur son vrai dossier ;
+- réduit les graphes du code au code seul (`src/`, `scripts/`), avec les vrais noms ;
 - remplace les chemins de la machine par `~/Projets/...` ;
 - remplace les messages de session par une version courte et professionnelle, sens conservé ;
 - complète les retours d'usage d'outils réellement installés et utilisés ;
