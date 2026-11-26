@@ -22,5 +22,7 @@ jobs:
         run: npm ci
       - name: Compiler l'interface
         run: npm run build
+      - name: Compiler la démo statique
+        run: npm run build:demo --ignore-scripts
       - name: Contrôle de sensibilité
         run: npm run controle:sensibilite

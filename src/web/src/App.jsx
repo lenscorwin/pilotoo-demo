@@ -15,7 +15,8 @@ import Generale from "./pages/Generale.jsx";
 import ATrancher from "./pages/ATrancher.jsx";
 import Projet from "./pages/Projet.jsx";
 import Outils from "./pages/Outils.jsx";
-import { chargerEtat, relancerScan } from "./lib/api.js";
+import { chargerEtat, relancerScan, DEMO } from "./lib/api.js";
+import { BandeauDemo, AvisMobile } from "./components/Demo.jsx";
 
 /**
  * `#/projet/<id>/<onglet>` : l'onglet vit dans l'URL pour qu'un rechargement,
@@ -115,12 +116,16 @@ export default function App() {
     document.title = nom && nom !== "Pilotoo" ? `${nom} · Pilotoo` : "Pilotoo";
   }, [route.vue, projet?.nom]);
 
-  if (erreur && !etat) return <Panne message={erreur} />;
-  if (!etat) return <Attente />;
+  // En démo, l'avis mobile passe avant tout : pas d'écran d'attente ou de
+  // panne tassé sur un téléphone.
+  if (erreur && !etat) return <>{DEMO && <AvisMobile />}<Panne message={erreur} /></>;
+  if (!etat) return <>{DEMO && <AvisMobile />}<Attente /></>;
 
 
   return (
     <div className="relative flex h-full gap-3 p-3">
+      {DEMO && <AvisMobile />}
+      {DEMO && <BandeauDemo instantane={etat.instantane} />}
       <Menu etat={etat} route={route} aller={aller} rafraichir={rafraichir} enCours={scanEnCours} />
       <main ref={zone} className="zone-defilante relative min-w-0 flex-1 overflow-y-auto rounded-[28px]">
         {route.vue === "general" && <Generale etat={etat} aller={aller} />}
@@ -159,8 +164,14 @@ function Panne({ message }) {
         <h2 className="mb-2 text-[15px] font-semibold">Pilotoo ne peut pas lire l'état</h2>
         <p className="text-[13px] leading-relaxed text-texte-2">{message}</p>
         <p className="mt-3 text-[12px] leading-relaxed text-texte-3">
-          Le serveur local est-il lancé ? <code className="rounded bg-fond-3 px-1 py-0.5">npm run dash</code> à la
-          racine du projet, ou le raccourci sur le Bureau.
+          {DEMO ? (
+            "L'instantané de démonstration n'a pas pu être chargé. Recharge la page dans un instant."
+          ) : (
+            <>
+              Le serveur local est-il lancé ? <code className="rounded bg-fond-3 px-1 py-0.5">npm run dash</code> à
+              la racine du projet, ou le raccourci sur le Bureau.
+            </>
+          )}
         </p>
       </div>
     </div>

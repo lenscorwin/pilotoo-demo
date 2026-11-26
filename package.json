@@ -11,7 +11,10 @@
     "dev": "npm run scan && concurrently -n scan,api,web -c gray,cyan,magenta \"npm:serve\" \"vite --config src/web/vite.config.js\"",
     "build": "vite build --config src/web/vite.config.js",
     "dash": "npm run scan && npm run build && npm run serve",
-    "controle:sensibilite": "node scripts/controle-sensibilite.mjs"
+    "build:demo": "vite build --config src/web/vite.config.js --mode demo",
+    "postbuild:demo": "npm run controle:sensibilite",
+    "controle:sensibilite": "node scripts/controle-sensibilite.mjs",
+    "dev:demo": "vite --config src/web/vite.config.js --mode demo"
   },
   "dependencies": {
     "express": "^4.21.2",
