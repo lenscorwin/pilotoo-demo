@@ -5,17 +5,19 @@
  * justifient pas une bibliothèque de routage, et un lien partageable qui
  * survit au rechargement suffit largement ici.
  *
- * `#/` et `#/general` ouvrent la vue des projets,
+ * `#/` est l'accueil (la visite guidée), `#/general` la vue des projets,
  * `#/a-trancher` les arbitrages, la vigilance et les retours d'outils.
  */
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { AlertCircle } from "lucide-react";
 import Menu from "./components/Menu.jsx";
 import Generale from "./pages/Generale.jsx";
+import Accueil from "./pages/Accueil.jsx";
 import ATrancher from "./pages/ATrancher.jsx";
 import Projet from "./pages/Projet.jsx";
 import Outils from "./pages/Outils.jsx";
 import { chargerEtat, relancerScan, DEMO } from "./lib/api.js";
+import { NOM_OUTIL } from "./lib/format.js";
 import { BandeauDemo, AvisMobile } from "./components/Demo.jsx";
 import Fenetres from "./components/Fenetres.jsx";
 
@@ -35,7 +37,7 @@ function lireRoute() {
     const [id, onglet] = h.slice(7).split("/");
     return { vue: "projet", id: decodeURIComponent(id), onglet: onglet || "suivi" };
   }
-  return { vue: "general" };
+  return { vue: "accueil" };
 }
 
 function ecrireRoute(r) {
@@ -114,7 +116,7 @@ export default function App() {
     const nom =
       { outils: "Outils", general: "Vue générale", "a-trancher": "À trancher" }[route.vue] ??
       (route.vue === "projet" ? projet?.nom : null);
-    document.title = nom && nom !== "Pilotoo" ? `${nom} · Pilotoo` : "Pilotoo";
+    document.title = nom && nom !== NOM_OUTIL ? `${nom} · ${NOM_OUTIL}` : NOM_OUTIL;
   }, [route.vue, projet?.nom]);
 
   // En démo, l'avis mobile passe avant tout : pas d'écran d'attente ou de
@@ -130,6 +132,7 @@ export default function App() {
       {DEMO && <Fenetres />}
       <Menu etat={etat} route={route} aller={aller} rafraichir={rafraichir} enCours={scanEnCours} />
       <main ref={zone} className="zone-defilante relative min-w-0 flex-1 overflow-y-auto rounded-[28px]">
+        {route.vue === "accueil" && <Accueil etat={etat} aller={aller} />}
         {route.vue === "general" && <Generale etat={etat} aller={aller} />}
         {route.vue === "a-trancher" && <ATrancher etat={etat} aller={aller} ancre={route.ancre} />}
         {route.vue === "outils" && <Outils etat={etat} aller={aller} />}
@@ -163,7 +166,7 @@ function Panne({ message }) {
     <div className="flex h-full items-center justify-center p-8">
       <div className="max-w-md rounded-xl border border-bloque/30 bg-bloque/[0.07] p-6">
         <AlertCircle size={20} className="mb-3 text-bloque" strokeWidth={2} />
-        <h2 className="mb-2 text-[15px] font-semibold">Pilotoo ne peut pas lire l'état</h2>
+        <h2 className="mb-2 text-[15px] font-semibold">{NOM_OUTIL} ne peut pas lire l'état</h2>
         <p className="text-[13px] leading-relaxed text-texte-2">{message}</p>
         <p className="mt-3 text-[12px] leading-relaxed text-texte-3">
           {DEMO ? (

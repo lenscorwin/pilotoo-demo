@@ -46,7 +46,7 @@ export function AvisMobile() {
         <MonitorSmartphone size={28} strokeWidth={1.8} className="mx-auto mb-4 text-accent" />
         <h1 className="mb-2 text-[17px] font-semibold text-texte">Démo conçue pour ordinateur</h1>
         <p className="mb-6 text-[13.5px] leading-relaxed text-texte-2">
-          Pilotoo est un tableau de bord dense, pensé pour un grand écran. Ouvre cette page sur un ordinateur pour
+          MyDashboard Projets est un tableau de bord dense, pensé pour un grand écran. Ouvre cette page sur un ordinateur pour
           la parcourir.
         </p>
         <a

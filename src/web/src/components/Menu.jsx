@@ -10,7 +10,7 @@
  * active est une pilule lavande.
  */
 import React from "react";
-import { LayoutGrid, Wrench, RefreshCw, Scale, Moon, Sun } from "lucide-react";
+import { LayoutGrid, Wrench, RefreshCw, Compass, Scale, Moon, Sun } from "lucide-react";
 import { useTheme, basculerTheme } from "../lib/theme.js";
 
 /**
@@ -55,7 +55,11 @@ export default function Menu({ etat, route, aller, rafraichir, enCours }) {
     <aside className="nuit relative z-10 flex h-full w-[216px] shrink-0 flex-col overflow-hidden rounded-[28px] shadow-haute">
       <header className="px-5 pb-5 pt-6">
         <div className="flex items-center justify-between gap-2">
-          <h1 className="font-title text-[26px] leading-none tracking-[0.01em] text-texte">Pilotoo</h1>
+          {/* Nom long : la marque sur une ligne, « Projets » en sous-titre. */}
+          <h1 className="font-title leading-none text-texte">
+            <span className="block text-[21px] tracking-[0.01em]">MyDashboard</span>{" "}
+            <span className="mt-1.5 block text-[11px] font-semibold uppercase tracking-[0.18em] text-texte-3">Projets</span>
+          </h1>
           <PastilleTheme />
         </div>
         <p className="mt-2 text-[11px] leading-relaxed text-texte-3">
@@ -72,6 +76,9 @@ export default function Menu({ etat, route, aller, rafraichir, enCours }) {
       </header>
 
       <nav className="space-y-0.5 px-3">
+        <Entree actif={route.vue === "accueil"} onClick={() => aller({ vue: "accueil" })} icone={Compass}>
+          Accueil
+        </Entree>
         <Entree actif={route.vue === "general"} onClick={() => aller({ vue: "general" })} icone={LayoutGrid}>
           Vue générale
         </Entree>
@@ -119,6 +126,7 @@ export default function Menu({ etat, route, aller, rafraichir, enCours }) {
           </div>
         ))}
       </div>
+
 
       <footer className="border-t border-bord-vif/60 p-3">
         <button

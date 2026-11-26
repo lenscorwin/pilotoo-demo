@@ -21,6 +21,9 @@ export function depuis(iso) {
   return `il y a ${Math.floor(j / 365)} an${j >= 730 ? "s" : ""}`;
 }
 
+/** Nom de l'outil affiché dans l'interface (titre d'onglet, messages). */
+export const NOM_OUTIL = "MyDashboard Projets";
+
 export const LIBELLE_STATUT = {
   actif: "Actif",
   "en-pause": "En pause",
