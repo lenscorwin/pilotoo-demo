@@ -38,7 +38,7 @@ Je n'avais pas encore travaillé en équipe avec des pull requests. Alors j'ai a
 ## Feuille de route v1.0
 
 - [x] Socle : le code de l'outil réel, configuration d'exemple
-- [ ] Vérification automatique à chaque PR
+- [x] Vérification automatique à chaque PR
 - [ ] Contrôle de sensibilité sur tout le dépôt, à chaque PR
 - [ ] Mode démo : l'interface lit un instantané au lieu du serveur
 - [ ] Données de démonstration nettoyées
