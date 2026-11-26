@@ -22,3 +22,5 @@ jobs:
         run: npm ci
       - name: Compiler l'interface
         run: npm run build
+      - name: Contrôle de sensibilité
+        run: npm run controle:sensibilite
