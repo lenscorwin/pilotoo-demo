@@ -512,8 +512,13 @@ body {
   .bento-lien:hover .rond-fleche { transform: none; }
 }
 
-@keyframes fondu {
-  from { opacity: 0; }
+/* Accueil : un nom de fichier cité dans le texte de la visite. */
+.visite-texte code {
+  font-size: 0.92em;
+  padding: 0.05em 0.35em;
+  border-radius: 6px;
+  background: rgb(127 127 127 / 0.14);
+  color: var(--color-texte);
 }
 
 /* ───────── Démo : contenu markdown des fenêtres Obsidian simulées ─────────

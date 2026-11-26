@@ -66,7 +66,7 @@ export default function ProjetUsage({ p, allerOnglet }) {
         <p className="mt-3 text-[12px] leading-relaxed text-texte-3">
           Pour transformer ces attentes en retours écrits (banc d'essai, fiches, bibliothèque), lance{" "}
           <code className="rounded bg-fond-3 px-1 py-0.5 text-[11px] text-texte-2">/bilan-outils {p.nom}</code> depuis
-          Pilotoo. L'agent propose, tu valides, puis il écrit.
+          MyDashboard Projets. L'agent propose, tu valides, puis il écrit.
         </p>
       </Section>
 
@@ -323,12 +323,12 @@ function Fenetre({ b }) {
           <>
             {" "}: <strong className="text-texte-2">{f.sessions} session{f.sessions > 1 ? "s" : ""}</strong>
             {f.du && ` du ${dateCourte(f.du)} au ${dateCourte(f.au)}`}
-            {f.purgees ? `, dont ${f.purgees} purgée${f.purgees > 1 ? "s" : ""} par Claude Code et gardée${f.purgees > 1 ? "s" : ""} par Pilotoo` : ""}.
+            {f.purgees ? `, dont ${f.purgees} purgée${f.purgees > 1 ? "s" : ""} par Claude Code et gardée${f.purgees > 1 ? "s" : ""} par MyDashboard Projets` : ""}.
           </>
         ) : (
           " : aucune session trouvée pour ce dossier."
         )}{" "}
-        Claude Code efface ses sessions au bout de 30 jours ; Pilotoo en garde l'extrait à partir de son premier scan.
+        Claude Code efface ses sessions au bout de 30 jours ; MyDashboard Projets en garde l'extrait à partir de son premier scan.
         Ce qui précède n'apparaît que par le banc d'essai et les fiches (« Avant l'historique »).
       </p>
       {f?.au && <p className="mt-1">Dernier appel relevé {depuis(f.au)}.</p>}

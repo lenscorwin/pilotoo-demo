@@ -17,6 +17,8 @@
     "dev:demo": "vite --config src/web/vite.config.js --mode demo"
   },
   "dependencies": {
+    "@fontsource/nunito": "^5.3.0",
+    "@fontsource/outfit": "^5.3.0",
     "express": "^4.21.2",
     "lucide-react": "^0.462.0",
     "marked": "^14.1.4",

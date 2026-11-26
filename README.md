@@ -1,8 +1,8 @@
-# Pilotoo
+# MyDashboard Projets
 
 **Le tableau de bord de mes projets.** Une page qui dit où en est chacun, ce qui attend une décision et quels outils servent vraiment.
 
-> Ce dépôt est la version publique et figée de Pilotoo. L'outil réel lit mon disque ; la démo lit un instantané du 25/11/2026, nettoyé et complété. **Données de démonstration, méthode et outil réels.**
+> Ce dépôt est la version publique et figée de MyDashboard Projets. L'outil réel lit mon disque ; la démo lit un instantané du 25/11/2026, nettoyé et complété. **Données de démonstration, méthode et outil réels.**
 
 ## Le problème
 
@@ -10,21 +10,22 @@ Je mène une dizaine de projets en parallèle, design, code et outillage IA. Je 
 
 ## Les principes
 
-1. **Une seule source de vérité.** L'état d'un projet vit dans son propre fichier `etat.md`, écrit à la main ou dans Obsidian. Pilotoo ne fait que le lire.
+1. **Une seule source de vérité.** L'état d'un projet vit dans son propre fichier `etat.md`, écrit à la main ou dans Obsidian. MyDashboard Projets ne fait que le lire.
 2. **Le déclaré face au constaté.** Ce que j'écris (résumé, étapes, décisions) est comparé à ce que le scanner relève (dates de modification, état git, outils installés). Quand les deux divergent, le dashboard le signale au lieu de choisir.
 3. **Rien ne s'écrit à ma place.** Le dashboard est en lecture seule. Les cases cochées reflètent le fichier, elles ne sont pas cliquables.
 4. **Zéro coût caché.** Le scan ne lit que des métadonnées et du markdown, sans appel à un modèle d'IA. Il peut tourner aussi souvent que voulu.
 
 ## Ce qu'on y voit
 
+- **Accueil** : une visite guidée en cinq étapes, du problème à la routine d'une session, chaque étape menant au vrai écran.
 - **Vue générale** : chaque projet en une tuile, avec sa synthèse, son avancement et ce qui a changé depuis la dernière visite.
 - **À trancher** : toutes les décisions en attente, tous projets confondus.
-- **Page projet** : suivi, graphe git, copies de travail en cours, outils branchés, essais menés, usage réel des outils.
+- **Page projet** : suivi, graphe git, copies de travail en cours, graphe du code à parcourir en grand, outils branchés, essais menés, usage réel des outils.
 - **Outils** : le catalogue transverse, croisé avec les fiches, les projets et les retours d'essai.
 
 ## Comment je travaille
 
-Pilotoo est l'outil, mais ce dépôt montre aussi ma façon de faire :
+MyDashboard Projets est l'outil, mais ce dépôt montre aussi ma façon de faire :
 
 - **Une branche par tâche** (Agentastic) : plusieurs agents travaillent en parallèle, chacun dans sa copie, sans se marcher dessus.
 - **Une mémoire écrite** (Obsidian) : une page par sujet, un fichier d'état par projet, un journal, et un rituel de clôture à chaque fin de session.
@@ -43,8 +44,8 @@ Je n'avais pas encore travaillé en équipe avec des pull requests. Alors j'ai a
 - [x] Mode démo : l'interface lit un instantané au lieu du serveur
 - [x] Données de démonstration nettoyées
 - [x] Fenêtres Finder et Obsidian simulées pour ouvrir les fichiers
-- [ ] Accueil en visite guidée
-- [ ] Graphe du code : le code de l'outil et de graphoo.fr vu par Graphify, à parcourir en grand
+- [x] Accueil en visite guidée
+- [x] Graphe du code : le code de l'outil et de graphoo.fr vu par Graphify, à parcourir en grand
 
 ## Stack
 
@@ -75,7 +76,7 @@ La même interface sert l'outil réel et la vitrine. Compilée avec `--mode demo
 
 - l'état vient d'un instantané figé, `src/web/public/demo/state.json`, ajouté avec les données de démonstration ;
 - le bouton « Rafraîchir » joue le scan ;
-- un clic « ouvrir » ne sort pas du navigateur : un fichier markdown s'ouvre dans une fenêtre façon Obsidian, un dossier dans une fenêtre façon Finder. 19 fichiers sont montrés en entier, les autres en aperçu ;
+- un clic « ouvrir » ne sort pas du navigateur : un fichier markdown s'ouvre dans une fenêtre façon Obsidian, un dossier dans une fenêtre façon Finder, un graphe du code dans une fenêtre où l'on zoome et suit les liens. 19 fichiers sont montrés en entier, les autres en aperçu ;
 - le site produit est statique, avec des chemins relatifs : il se dépose tel quel sur un hébergement simple.
 
 ## Les données de la démo
@@ -84,6 +85,7 @@ L'instantané (`src/web/public/demo/`) est produit par un script qui reste dans 
 
 - garde une partie des projets et retire tout ce qui touche aux autres ;
 - ajoute un projet, le design system de graphoo.fr, mesuré sur son vrai dossier ;
+- réduit les graphes du code au code seul (`src/`, `scripts/`), avec les vrais noms ;
 - remplace les chemins de la machine par `~/Projets/...` ;
 - remplace les messages de session par une version courte et professionnelle, sens conservé ;
 - complète les retours d'usage d'outils réellement installés et utilisés ;

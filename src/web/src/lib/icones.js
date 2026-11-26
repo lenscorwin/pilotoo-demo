@@ -9,14 +9,14 @@ import {
   Radar, IdCard, FileUser, GraduationCap, Library, Ship,
   BotMessageSquare, WandSparkles, Mails, Wrench, Hexagon, Briefcase,
   FileText, Code, Dices, PenLine, FolderOpen, TrainFront, Plane, Map,
-  Feather, ScrollText, Castle, Sailboat, BriefcaseBusiness, UserSearch,
+  Feather, ScrollText, Castle, Sailboat, BriefcaseBusiness, UserSearch, Palette,
 } from "lucide-react";
 
 const ICONES = {
   Radar, IdCard, FileUser, GraduationCap, Library, Ship,
   BotMessageSquare, WandSparkles, Mails, Wrench, Hexagon, Briefcase,
   FileText, Code, Dices, PenLine, FolderOpen, TrainFront, Plane, Map,
-  Feather, ScrollText, Castle, Sailboat, BriefcaseBusiness, UserSearch,
+  Feather, ScrollText, Castle, Sailboat, BriefcaseBusiness, UserSearch, Palette,
 };
 
 /** Repli par domaine, pour un projet découvert qui n'a rien déclaré. */

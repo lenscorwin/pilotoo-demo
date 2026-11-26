@@ -4,7 +4,8 @@
  *
  * `ouvrir(uri)` (lib/api.js) émet `pilotoo:ouvrir` en démo ; ce composant
  * l'écoute. Un fichier markdown s'ouvre dans une fenêtre Obsidian, un dossier
- * dans une fenêtre Finder. Les fenêtres se déplacent par leur barre de titre,
+ * dans une fenêtre Finder, un graphe du code dans sa propre fenêtre
+ * (FenetreGraphe.jsx), qu'on peut agrandir. Les fenêtres se déplacent par leur barre de titre,
  * se referment par la pastille rouge ou Échap, et passent devant au clic.
  *
  * Les couleurs imitent les deux applications : elles ne suivent pas le thème
@@ -19,12 +20,14 @@ import {
   chargerCatalogue, trouver, enfant, voisins, racineDe, cheminDansRacine,
   resoudreLien, separerFrontmatter, rendreMarkdown,
 } from "../lib/fichiers.js";
+import FenetreGraphe from "./FenetreGraphe.jsx";
 
-const TAILLES = { obsidian: [900, 620], finder: [780, 460], absent: [420, 220] };
+const TAILLES = { obsidian: [900, 620], finder: [780, 460], absent: [420, 220], graphe: [1060, 680] };
 let compteur = 0;
 
 /** Choisit l'habillage d'une entrée du catalogue. */
-const habillage = (f) => (!f || f.type === "absent" || f.type === "autre" ? "absent" : f.type === "dossier" ? "finder" : "obsidian");
+const habillage = (f) =>
+  !f || f.type === "absent" || f.type === "autre" ? "absent" : f.type === "dossier" ? "finder" : f.type === "graphe" ? "graphe" : "obsidian";
 
 export default function Fenetres() {
   const [fenetres, setFenetres] = useState([]);
@@ -37,7 +40,8 @@ export default function Fenetres() {
       // Déjà ouverte : on la ramène devant au lieu d'en ouvrir une seconde.
       const deja = liste.find((w) => w.historique[w.position] === (f?.uri ?? uri));
       if (deja) return [...liste.filter((w) => w !== deja), deja];
-      const [l, h] = TAILLES[app];
+      // Jamais plus grande que l'écran, utile surtout sur mobile.
+      const [l, h] = [Math.min(TAILLES[app][0], window.innerWidth - 32), Math.min(TAILLES[app][1], window.innerHeight - 32)];
       const decalage = (liste.length % 6) * 28;
       const x = Math.max(16, Math.min(window.innerWidth - l - 16, (window.innerWidth - l) / 2 + decalage));
       const y = Math.max(16, Math.min(window.innerHeight - h - 16, (window.innerHeight - h) / 2.6 + decalage));
@@ -98,13 +102,14 @@ export default function Fenetres() {
           reculer={() => maj(w.id, (x) => ({ position: Math.max(0, x.position - 1) }))}
           avancer={() => maj(w.id, (x) => ({ position: Math.min(x.historique.length - 1, x.position + 1) }))}
           ouvrirAilleurs={ouvrirFenetre}
+          basculerAgrandi={() => maj(w.id, (x) => ({ agrandi: !x.agrandi }))}
         />
       ))}
     </div>
   );
 }
 
-function Fenetre({ w, auPremierPlan, z, fermer, devant, deplacer, naviguer, reculer, avancer, ouvrirAilleurs }) {
+function Fenetre({ w, auPremierPlan, z, fermer, devant, deplacer, naviguer, reculer, avancer, ouvrirAilleurs, basculerAgrandi }) {
   const ref = useRef(null);
   const f = trouver(w.historique[w.position]);
   const titre = f?.titre ?? "Fichier";
@@ -116,7 +121,7 @@ function Fenetre({ w, auPremierPlan, z, fermer, devant, deplacer, naviguer, recu
 
   /** Déplacement par la barre de titre, borné à l'écran. */
   const saisir = (e) => {
-    if (e.button !== 0 || e.target.closest("button")) return;
+    if (e.button !== 0 || e.target.closest("button") || w.agrandi) return;
     devant();
     const dx = e.clientX - w.x;
     const dy = e.clientY - w.y;
@@ -137,6 +142,10 @@ function Fenetre({ w, auPremierPlan, z, fermer, devant, deplacer, naviguer, recu
 
   const sombre = w.app === "obsidian";
   const props = { f, naviguer, ouvrirAilleurs, saisir, fermer, titre, w, reculer, avancer };
+  // Agrandie, la fenêtre occupe l'écran à 12 px des bords.
+  const cadre = w.agrandi
+    ? { left: 12, top: 12, width: window.innerWidth - 24, height: window.innerHeight - 24 }
+    : { left: w.x, top: w.y, width: w.l, height: w.h };
 
   return (
     <section
@@ -144,22 +153,25 @@ function Fenetre({ w, auPremierPlan, z, fermer, devant, deplacer, naviguer, recu
       tabIndex={-1}
       data-fenetre={w.id}
       role="dialog"
-      aria-label={`${w.app === "finder" ? "Finder" : w.app === "obsidian" ? "Obsidian" : "Fichier"} : ${titre}`}
+      aria-label={`${{ finder: "Finder", obsidian: "Obsidian", graphe: "Graphe" }[w.app] ?? "Fichier"} : ${titre}`}
       onPointerDown={devant}
-      style={{ left: w.x, top: w.y, width: w.l, height: w.h, zIndex: z }}
+      style={{ ...cadre, zIndex: z }}
       className={`pointer-events-auto absolute flex flex-col overflow-hidden rounded-[12px] outline-none transition-shadow ${
-        sombre ? "border border-black/60 bg-[#1e1e1e] text-[#dcddde]" : "border border-black/15 bg-white text-[#1d1d1f]"
+        w.app === "graphe" ? "border border-black/70 bg-[#0b0e14] text-[#d7dbe3]" : sombre ? "border border-black/60 bg-[#1e1e1e] text-[#dcddde]" : "border border-black/15 bg-white text-[#1d1d1f]"
       } ${auPremierPlan ? "shadow-[0_24px_70px_-12px_rgba(0,0,0,0.55)]" : "shadow-[0_10px_30px_-10px_rgba(0,0,0,0.35)]"}`}
     >
       {w.app === "obsidian" && <Obsidian {...props} />}
       {w.app === "finder" && <Finder key={f?.uri} {...props} />}
       {w.app === "absent" && <Absent {...props} />}
+      {w.app === "graphe" && (
+        <FenetreGraphe f={f} saisir={saisir} fermer={fermer} titre={titre} Pastilles={Pastilles} agrandi={!!w.agrandi} basculerAgrandi={basculerAgrandi} />
+      )}
     </section>
   );
 }
 
-/** Les trois pastilles macOS. Seule la rouge agit. */
-function Pastilles({ fermer, titre }) {
+/** Les trois pastilles macOS. La rouge ferme ; la verte agrandit, quand la fenêtre le permet. */
+function Pastilles({ fermer, titre, agrandir, agrandi }) {
   return (
     <div className="flex items-center gap-2 pl-3.5">
       <button
@@ -173,7 +185,20 @@ function Pastilles({ fermer, titre }) {
         </span>
       </button>
       <span aria-hidden className="size-3 rounded-full bg-[#febc2e] ring-1 ring-black/10" />
-      <span aria-hidden className="size-3 rounded-full bg-[#28c840] ring-1 ring-black/10" />
+      {agrandir ? (
+        <button
+          type="button"
+          onClick={agrandir}
+          aria-label={agrandi ? `Réduire ${titre}` : `Agrandir ${titre}`}
+          className="group grid size-3 place-items-center rounded-full bg-[#28c840] ring-1 ring-black/10"
+        >
+          <span aria-hidden className="text-[8px] leading-none text-black/60 opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100">
+            {agrandi ? "−" : "+"}
+          </span>
+        </button>
+      ) : (
+        <span aria-hidden className="size-3 rounded-full bg-[#28c840] ring-1 ring-black/10" />
+      )}
     </div>
   );
 }
