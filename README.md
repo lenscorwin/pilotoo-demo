@@ -42,7 +42,7 @@ Je n'avais pas encore travaillé en équipe avec des pull requests. Alors j'ai a
 - [x] Contrôle de sensibilité sur tout le dépôt, à chaque PR
 - [x] Mode démo : l'interface lit un instantané au lieu du serveur
 - [x] Données de démonstration nettoyées
-- [ ] Fenêtres Finder et Obsidian simulées pour ouvrir les fichiers
+- [x] Fenêtres Finder et Obsidian simulées pour ouvrir les fichiers
 - [ ] Accueil en visite guidée
 - [ ] Graphe du code : le code de l'outil et de graphoo.fr vu par Graphify, à parcourir en grand
 
@@ -75,7 +75,7 @@ La même interface sert l'outil réel et la vitrine. Compilée avec `--mode demo
 
 - l'état vient d'un instantané figé, `src/web/public/demo/state.json`, ajouté avec les données de démonstration ;
 - le bouton « Rafraîchir » joue le scan ;
-- un clic « ouvrir » ne sort pas du navigateur, il est confié aux fenêtres simulées ;
+- un clic « ouvrir » ne sort pas du navigateur : un fichier markdown s'ouvre dans une fenêtre façon Obsidian, un dossier dans une fenêtre façon Finder. 19 fichiers sont montrés en entier, les autres en aperçu ;
 - le site produit est statique, avec des chemins relatifs : il se dépose tel quel sur un hébergement simple.
 
 ## Les données de la démo
