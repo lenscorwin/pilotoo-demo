@@ -11,8 +11,8 @@ Je mène une dizaine de projets en parallèle, design, code et outillage IA. Je 
 ## Les principes
 
 1. **Une seule source de vérité.** L'état d'un projet vit dans son propre fichier `etat.md`, écrit à la main ou dans Obsidian. MyDashboard Projets ne fait que le lire.
-2. **Le déclaré face au constaté.** Ce que j'écris (résumé, étapes, décisions) est comparé à ce que le scanner relève (dates de modification, état git, outils installés). Quand les deux divergent, le dashboard le signale au lieu de choisir.
-3. **Rien ne s'écrit à ma place.** Le dashboard est en lecture seule. Les cases cochées reflètent le fichier, elles ne sont pas cliquables.
+2. **Le déclaré face au constaté.** Ce que j'écris (résumé, étapes, décisions) est comparé à ce que le scanner relève (dates de modification, état git, outils installés). Quand les deux divergent, le tableau de bord le signale au lieu de choisir.
+3. **Rien ne s'écrit à ma place.** Le tableau de bord est en lecture seule. Les cases cochées reflètent le fichier, elles ne sont pas cliquables.
 4. **Zéro coût caché.** Le scan ne lit que des métadonnées et du markdown, sans appel à un modèle d'IA. Il peut tourner aussi souvent que voulu.
 
 ## Ce qu'on y voit
@@ -27,10 +27,10 @@ Je mène une dizaine de projets en parallèle, design, code et outillage IA. Je 
 
 MyDashboard Projets est l'outil, mais ce dépôt montre aussi ma façon de faire :
 
-- **Une branche par tâche** (Agentastic) : plusieurs agents travaillent en parallèle, chacun dans sa copie, sans se marcher dessus.
-- **Une mémoire écrite** (Obsidian) : une page par sujet, un fichier d'état par projet, un journal, et un rituel de clôture à chaque fin de session.
-- **Une carte du code** (Graphify) : sur les gros projets, un graphe calculé localement remplace la relecture de tout le code.
-- **Un cadrage par interview** : avant de construire, une question à la fois, avec une réponse recommandée.
+- **Plusieurs tâches avancent en parallèle sans se gêner** : une copie de travail et une branche par tâche (Agentastic).
+- **Chaque projet garde sa mémoire écrite** : un fichier d'état, une page par sujet, les décisions avec leur raison et un journal, mis à jour à chaque fin de session (Obsidian).
+- **Sur un gros projet, je ne relis pas tout le code** : une carte calculée en local montre ce qui dépend de quoi (Graphify).
+- **Je cadre avant de construire** : une question à la fois, chacune avec une réponse recommandée (la skill grill-me).
 
 ### À propos des pull requests
 
@@ -63,7 +63,7 @@ Adapter d'abord les chemins de `config/targets.json` à sa machine. Un projet es
 | Commande | Ce qu'elle fait |
 |---|---|
 | `npm run scan` | relit les projets et écrit `data/state.json` |
-| `npm run serve` | sert le dashboard en local, en lecture seule |
+| `npm run serve` | sert le tableau de bord en local, en lecture seule |
 | `npm run dev` | serveur et rechargement à chaud |
 | `npm run build` | compile l'interface |
 | `npm run build:demo` | compile la démo statique dans `dist-demo/`, sans serveur, puis lance le contrôle |

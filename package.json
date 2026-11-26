@@ -4,7 +4,7 @@
   "private": true,
   "license": "MIT",
   "type": "module",
-  "description": "Pilotoo, le tableau de bord de mes projets (version démo publique)",
+  "description": "MyDashboard Projets, le tableau de bord de mes projets (version démo publique)",
   "scripts": {
     "scan": "node src/scanner/index.mjs",
     "serve": "node src/server/index.mjs",
