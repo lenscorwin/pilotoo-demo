@@ -171,7 +171,7 @@ function Entree({ actif, onClick, icone: Icone, children, pointTon, decisions = 
           title={`${decisions} décision${decisions > 1 ? "s" : ""} en attente`}
         >
           {decisions}
-          <span className="sr-only"> décision{decisions > 1 ? "s" : ""} en attente</span>
+          <span className="sr-only"> {`décision${decisions > 1 ? "s" : ""}`} en attente</span>
         </span>
       ) : (
         urgent && <span className="ml-auto h-1.5 w-1.5 shrink-0 rounded-full bg-bloque" title="Point urgent" />

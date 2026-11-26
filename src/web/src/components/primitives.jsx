@@ -52,19 +52,17 @@ export function Carte({ children, className = "", onClick, delai = 0 }) {
   );
 }
 
-/** Barre d'avancement. Le pourcentage est toujours écrit à côté. */
+/**
+ * Barre d'avancement. Le pourcentage est toujours écrit à côté : c'est lui
+ * que lit un lecteur d'écran, la barre n'est qu'un dessin. Un rôle
+ * « progressbar » demanderait un nom, et la barre vit parfois dans un bouton.
+ */
 export function Jauge({ valeur, ton = "actif" }) {
   if (valeur == null) return null;
   const couleurs = { actif: "bg-actif", pause: "bg-pause", bloque: "bg-bloque", termine: "bg-texte-3" };
   return (
     <div className="flex items-center gap-2.5">
-      <div
-        className="h-1.5 flex-1 overflow-hidden rounded-full bg-fond-3"
-        role="progressbar"
-        aria-valuenow={valeur}
-        aria-valuemin={0}
-        aria-valuemax={100}
-      >
+      <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-fond-3" aria-hidden="true">
         <div
           className={`h-full rounded-full transition-[width] duration-700 ${couleurs[ton] ?? couleurs.actif}`}
           style={{ width: `${valeur}%` }}

@@ -51,7 +51,7 @@ export function AvisMobile() {
         </p>
         <a
           href={CONTACT_URL}
-          className="inline-flex items-center gap-1.5 rounded-full bg-encre px-4 py-2 text-[13px] font-medium text-fond-2"
+          className="inline-flex items-center gap-1.5 rounded-full bg-texte px-4 py-2 text-[13px] font-medium text-fond"
         >
           Me contacter sur graphoo.fr
           <ArrowUpRight size={14} strokeWidth={2.2} />

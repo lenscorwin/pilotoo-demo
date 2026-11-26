@@ -196,7 +196,7 @@ function Usage({ u }) {
   if (!u) return <Pastille>Jamais lancé dans l'historique</Pastille>;
   return (
     <Pastille ton="actif">
-      {u.appels} lancement{u.appels > 1 ? "s" : ""} · {dateCourte(u.au)}
+      {u.appels} {`lancement${u.appels > 1 ? "s" : ""}`} · {dateCourte(u.au)}
     </Pastille>
   );
 }

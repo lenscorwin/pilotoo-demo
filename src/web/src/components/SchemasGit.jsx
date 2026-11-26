@@ -87,7 +87,7 @@ export function GrapheBranches({ h }) {
             {lignes.map((l, i) =>
               l.pli ? (
                 <li key={`pli-${i}`} style={{ height: H_PLI }} className="flex items-center text-[11px] text-texte-3">
-                  … <span className="tabulaire mx-1">{l.pli}</span> commit{l.pli > 1 ? "s" : ""}
+                  … <span className="tabulaire mx-1">{l.pli}</span> {`commit${l.pli > 1 ? "s" : ""}`}
                   <span className="ml-auto tabulaire">
                     {l.depuis.slice(0, 10) === l.jusqua.slice(0, 10)
                       ? jourCourt(l.depuis)
@@ -225,7 +225,7 @@ export function RythmeCommits({ h }) {
     <div className="rounded-xl border border-bord bg-fond-2 p-4">
       <div className="mb-3 flex items-baseline gap-2">
         <span className="tabulaire font-title text-[28px] leading-none text-texte">{h.total}</span>
-        <span className="text-[13px] text-texte-2">commit{h.total > 1 ? "s" : ""}</span>
+        <span className="text-[13px] text-texte-2">{`commit${h.total > 1 ? "s" : ""}`}</span>
         <span className="ml-auto text-[11px] text-texte-3">
           {parPas} · actif <span className="tabulaire">{actives}</span> {unite} sur{" "}
           <span className="tabulaire">{cols.length}</span>
@@ -263,7 +263,7 @@ export function RythmeCommits({ h }) {
             style={{ left: `calc(1.25rem + (100% - 1.25rem) * ${(survol + 0.5) / cols.length})` }}
           >
             <span className="tabulaire block text-[13px] font-semibold text-texte">
-              {cols[survol].n} commit{cols[survol].n > 1 ? "s" : ""}
+              {cols[survol].n} {`commit${cols[survol].n > 1 ? "s" : ""}`}
             </span>
             <span className="block text-[11px] text-texte-3">{libelleColonne(cols[survol], pas)}</span>
           </div>
