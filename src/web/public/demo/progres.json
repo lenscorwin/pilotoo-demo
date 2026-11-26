@@ -6,7 +6,7 @@
       "id": "graphoo-v2",
       "nom": "graphoo.fr",
       "closes": [
-        "Section IA relue, images envoyées par FTP, publiée (2026-11-17)"
+        "Section « Product Design × IA » rédigée, relue et publiée (2026-11-17)"
       ],
       "tranches": [],
       "sessions": [
@@ -21,26 +21,10 @@
       "pourcentage": 100
     },
     {
-      "id": "bot-conversationnel",
-      "nom": "Bot conversationnel",
-      "closes": [
-        "Maquetter le parcours de prise de rendez-vous"
-      ],
-      "tranches": [],
-      "sessions": [],
-      "jalons": [
-        {
-          "type": "palier",
-          "valeur": 50
-        }
-      ],
-      "pourcentage": 53
-    },
-    {
       "id": "graphoo",
       "nom": "Graphoo Atelier",
       "closes": [
-        "Premier commit de agents/ (190e3f5, 1 112 fichiers, 2026-11-19)"
+        "Premier enregistrement des agents dans git, 1 112 fichiers (2026-11-19)"
       ],
       "tranches": [],
       "sessions": [],
@@ -87,9 +71,9 @@
     }
   ],
   "total": {
-    "closes": 5,
+    "closes": 4,
     "tranches": 0,
     "sessions": 2,
-    "jalons": 5
+    "jalons": 4
   }
 }
