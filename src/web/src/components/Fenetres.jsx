@@ -10,7 +10,7 @@
  * Les couleurs imitent les deux applications : elles ne suivent pas le thème
  * du dashboard, comme de vraies fenêtres posées par-dessus.
  */
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   ChevronLeft, ChevronRight, Folder, FileText, FileCode2, Search, Files, Network,
   Clock, HardDrive, Monitor, Download, LayoutList, ChevronDown, Lock,
@@ -47,9 +47,14 @@ export default function Fenetres() {
 
   useEffect(() => {
     const surOuvrir = (e) => ouvrirFenetre(e.detail.uri);
+    // Échap ne ferme que si le focus est dans une fenêtre : ailleurs, la touche
+    // garde son rôle habituel dans le dashboard.
     const surTouche = (e) => {
       if (e.key !== "Escape") return;
-      setFenetres((liste) => (liste.length ? liste.slice(0, -1) : liste));
+      const dans = document.activeElement?.closest?.("section[data-fenetre]");
+      if (!dans) return;
+      const id = Number(dans.dataset.fenetre);
+      setFenetres((liste) => liste.filter((w) => w.id !== id));
     };
     window.addEventListener("pilotoo:ouvrir", surOuvrir);
     window.addEventListener("keydown", surTouche);
@@ -69,7 +74,14 @@ export default function Fenetres() {
 
   /** Navigation interne (dossier → sous-dossier, lien [[wiki]]) dans la même fenêtre. */
   const naviguer = (id, uri) =>
-    maj(id, (w) => ({ historique: [...w.historique.slice(0, w.position + 1), uri], position: w.position + 1 }));
+    setFenetres((liste) => {
+      // Une autre fenêtre montre déjà cette fiche : on la ramène devant.
+      const autre = liste.find((w) => w.id !== id && w.historique[w.position] === uri);
+      if (autre) return [...liste.filter((w) => w !== autre), autre];
+      return liste.map((w) =>
+        w.id === id ? { ...w, historique: [...w.historique.slice(0, w.position + 1), uri], position: w.position + 1 } : w,
+      );
+    });
 
   return (
     <div className="pointer-events-none fixed inset-0 z-[45]">
@@ -97,10 +109,10 @@ function Fenetre({ w, auPremierPlan, z, fermer, devant, deplacer, naviguer, recu
   const f = trouver(w.historique[w.position]);
   const titre = f?.titre ?? "Fichier";
 
-  // Le focus suit la fenêtre qui s'ouvre : Échap et Tab agissent sur elle.
+  // Le focus suit la fenêtre qui passe au premier plan : Échap et Tab agissent sur elle.
   useEffect(() => {
-    ref.current?.focus({ preventScroll: true });
-  }, []);
+    if (auPremierPlan && !ref.current?.contains(document.activeElement)) ref.current?.focus({ preventScroll: true });
+  }, [auPremierPlan]);
 
   /** Déplacement par la barre de titre, borné à l'écran. */
   const saisir = (e) => {
@@ -116,9 +128,11 @@ function Fenetre({ w, auPremierPlan, z, fermer, devant, deplacer, naviguer, recu
     const lacher = () => {
       window.removeEventListener("pointermove", bouger);
       window.removeEventListener("pointerup", lacher);
+      window.removeEventListener("pointercancel", lacher);
     };
     window.addEventListener("pointermove", bouger);
     window.addEventListener("pointerup", lacher);
+    window.addEventListener("pointercancel", lacher);
   };
 
   const sombre = w.app === "obsidian";
@@ -128,6 +142,7 @@ function Fenetre({ w, auPremierPlan, z, fermer, devant, deplacer, naviguer, recu
     <section
       ref={ref}
       tabIndex={-1}
+      data-fenetre={w.id}
       role="dialog"
       aria-label={`${w.app === "finder" ? "Finder" : w.app === "obsidian" ? "Obsidian" : "Fichier"} : ${titre}`}
       onPointerDown={devant}
@@ -137,7 +152,7 @@ function Fenetre({ w, auPremierPlan, z, fermer, devant, deplacer, naviguer, recu
       } ${auPremierPlan ? "shadow-[0_24px_70px_-12px_rgba(0,0,0,0.55)]" : "shadow-[0_10px_30px_-10px_rgba(0,0,0,0.35)]"}`}
     >
       {w.app === "obsidian" && <Obsidian {...props} />}
-      {w.app === "finder" && <Finder {...props} />}
+      {w.app === "finder" && <Finder key={f?.uri} {...props} />}
       {w.app === "absent" && <Absent {...props} />}
     </section>
   );
@@ -168,10 +183,12 @@ function Pastilles({ fermer, titre }) {
 function Obsidian({ f, naviguer, saisir, fermer, titre }) {
   const contenu = useRef(null);
   const racine = racineDe(f);
-  const arbre = construireArbre(voisins(f));
-  const { proprietes, corps } = separerFrontmatter(f.contenu ?? "");
-  const html = rendreMarkdown(corps);
-  const mots = corps.split(/\s+/).filter(Boolean).length;
+  // Mémorisé par fiche : déplacer la fenêtre ne recalcule ni l'arbre ni le rendu.
+  const arbre = useMemo(() => construireArbre(voisins(f)), [f]);
+  const { proprietes, corps, html, mots } = useMemo(() => {
+    const { proprietes: p, corps: c } = separerFrontmatter(f.contenu ?? "");
+    return { proprietes: p, corps: c, html: rendreMarkdown(c), mots: c.split(/\s+/).filter(Boolean).length };
+  }, [f]);
 
   // Les liens [[wiki]] ouvrent la fiche dans la même fenêtre ; les liens web, un onglet.
   const surClic = (e) => {
@@ -259,12 +276,15 @@ function Obsidian({ f, naviguer, saisir, fermer, titre }) {
 function construireArbre(fichiers) {
   const racine = { enfants: new Map() };
   for (const f of fichiers) {
-    const morceaux = cheminDansRacine(f).replace(/\.md$/, "").split("/");
+    const morceaux = cheminDansRacine(f).split("/");
     let n = racine;
     morceaux.forEach((m, i) => {
-      if (!n.enfants.has(m)) n.enfants.set(m, { nom: m, enfants: new Map(), fichier: null });
-      n = n.enfants.get(m);
-      if (i === morceaux.length - 1) n.fichier = f;
+      const feuille = i === morceaux.length - 1;
+      // Clés distinctes : « wiki.md » et le dossier « wiki/ » ne se confondent pas.
+      const cle = feuille ? `f:${m}` : `d:${m}`;
+      if (!n.enfants.has(cle)) n.enfants.set(cle, { nom: feuille ? m.replace(/\.md$/, "") : m, enfants: new Map(), fichier: null });
+      n = n.enfants.get(cle);
+      if (feuille) n.fichier = f;
     });
   }
   const trier = (n) =>
@@ -277,7 +297,7 @@ function construireArbre(fichiers) {
 function Arbre({ noeuds, actif, naviguer, profondeur = 0 }) {
   return noeuds.map((n) =>
     n.fichier && !n.enfants.length ? (
-      <li key={n.nom}>
+      <li key={`f:${n.nom}`}>
         <button
           type="button"
           onClick={() => naviguer(n.fichier.uri)}
@@ -290,14 +310,21 @@ function Arbre({ noeuds, actif, naviguer, profondeur = 0 }) {
         </button>
       </li>
     ) : (
-      <Dossier key={n.nom} n={n} actif={actif} naviguer={naviguer} profondeur={profondeur} />
+      <Dossier key={`d:${n.nom}`} n={n} actif={actif} naviguer={naviguer} profondeur={profondeur} />
     ),
   );
 }
 
+/** Le sous-arbre contient-il la fiche affichée ? Comparaison exacte des URI. */
+const contient = (n, uri) => n.enfants.some((e) => e.fichier?.uri === uri || contient(e, uri));
+
 function Dossier({ n, actif, naviguer, profondeur }) {
-  const contientActif = JSON.stringify(n).includes(actif);
+  const contientActif = contient(n, actif);
   const [ouvert, setOuvert] = useState(contientActif || n.enfants.length < 6);
+  // Une navigation vers une fiche rangée ici déplie le dossier.
+  useEffect(() => {
+    if (contientActif) setOuvert(true);
+  }, [contientActif]);
   return (
     <li>
       <button
@@ -394,14 +421,13 @@ function Finder({ f, naviguer, ouvrirAilleurs, saisir, fermer, titre, w, reculer
                 </tr>
               </thead>
               <tbody>
-                {f.entrees.map((e, i) => {
+                {(f.entrees ?? []).map((e, i) => {
                   const connu = !!enfant(f, e.nom);
                   const selection = choisi === e.nom;
                   return (
                     <tr
                       key={e.nom}
                       onClick={() => setChoisi(e.nom)}
-                      onDoubleClick={() => activer(e)}
                       className={selection ? "bg-[#2f7cf6] text-white" : i % 2 ? "bg-[#f5f5f7]" : ""}
                     >
                       <td className="py-[3px] pl-4">
@@ -441,7 +467,7 @@ function Finder({ f, naviguer, ouvrirAilleurs, saisir, fermer, titre, w, reculer
                 </span>
               </React.Fragment>
             ))}
-            <span className="ml-auto">{f.entrees.length} éléments · en gras : ouvrable dans la démo</span>
+            <span className="ml-auto">{(f.entrees ?? []).length} éléments · en gras : ouvrable dans la démo</span>
           </footer>
         </div>
       </div>

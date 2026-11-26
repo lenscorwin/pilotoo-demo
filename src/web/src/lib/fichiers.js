@@ -14,8 +14,15 @@ let parChemin = null;
 
 export function chargerCatalogue() {
   promesse ??= fetch(`${import.meta.env.BASE_URL}demo/fichiers.json`)
-    .then((r) => (r.ok ? r.json() : {}))
-    .catch(() => ({}))
+    .then((r) => {
+      if (!r.ok) throw new Error(String(r.status));
+      return r.json();
+    })
+    .catch(() => {
+      // Échec passager : on réessaiera au prochain clic au lieu de rester vide.
+      promesse = null;
+      return {};
+    })
     .then((brut) => {
       index = new Map(Object.entries(brut).map(([uri, f]) => [decoder(uri), { uri, ...f }]));
       parChemin = new Map([...index.values()].map((f) => [f.chemin, f]));
@@ -59,8 +66,10 @@ export function racineDe(f) {
 /** Chemin relatif à la racine de l'ensemble, pour l'arborescence. */
 export function cheminDansRacine(f) {
   if (f.vault) {
-    const m = f.chemin.match(new RegExp(`${f.vault}/(.+)$`));
-    return m ? m[1] : f.titre;
+    // Recherche simple plutôt qu'une regex : un nom de vault peut contenir ( ou [.
+    const marque = `/${f.vault}/`;
+    const i = f.chemin.lastIndexOf(marque);
+    return i >= 0 ? f.chemin.slice(i + marque.length) : f.titre;
   }
   return f.chemin.replace(/^~\/Projets\/[^/]+\/?/, "") || f.titre;
 }
@@ -90,18 +99,31 @@ export function separerFrontmatter(texte) {
 const echapper = (t) => t.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 
 // Le HTML brut éventuel des fichiers est affiché tel quel, jamais interprété.
+// Les liens [[wiki]] sont une extension de syntaxe : marked ne la cherche que
+// dans le texte courant, jamais dans le code (`[[sujet]]` reste tel quel).
 marked.use({
   gfm: true,
   renderer: {
     html: (token) => echapper(token.text ?? token.raw ?? ""),
   },
+  extensions: [
+    {
+      name: "lienWiki",
+      level: "inline",
+      start: (src) => src.indexOf("[["),
+      tokenizer(src) {
+        const m = /^\[\[([^\]\n]+)\]\]/.exec(src);
+        if (!m) return undefined;
+        // Dans un tableau, Obsidian écrit [[cible\|alias]] : la barre est échappée.
+        const [lien, alias] = m[1].split(/\\?\|/);
+        return { type: "lienWiki", raw: m[0], lien: lien.trim(), texte: (alias ?? lien).trim() };
+      },
+      renderer: (t) => `<a href="wiki:${encodeURIComponent(t.lien)}">${echapper(t.texte)}</a>`,
+    },
+  ],
 });
 
-/** Markdown vers HTML, avec les liens [[wiki]] transformés en liens internes. */
+/** Markdown vers HTML, liens [[wiki]] compris. */
 export function rendreMarkdown(corps) {
-  const avecLiens = corps.replace(/\[\[([^\]]+)\]\]/g, (_, cible) => {
-    const [lien, alias] = cible.split("|");
-    return `[${(alias ?? lien).trim()}](wiki:${encodeURIComponent(lien.trim())})`;
-  });
-  return marked.parse(avecLiens);
+  return marked.parse(corps);
 }
