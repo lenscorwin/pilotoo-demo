@@ -118,11 +118,11 @@ export default function SkillsParPack({ packs, usage }) {
                 />
                 <span className="t-h3 text-[19px]">{g.nom}</span>
                 <span className="tabulaire rounded-full bg-fond-3 px-2 py-0.5 text-[11px] text-texte-3">
-                  {g.skills.length} skill{g.skills.length > 1 ? "s" : ""}
+                  {g.skills.length} {`skill${g.skills.length > 1 ? "s" : ""}`}
                 </span>
                 {utilises > 0 && (
                   <Pastille ton="actif">
-                    {utilises} utilisé{utilises > 1 ? "s" : ""} ici
+                    {utilises} {`utilisé${utilises > 1 ? "s" : ""}`} ici
                   </Pastille>
                 )}
                 {g.role && <span className="min-w-0 flex-1 basis-64 text-[12.5px] text-texte-3">{g.role}</span>}

@@ -285,7 +285,7 @@ function ListeCompacte({ sujets, avecEtat = false }) {
           {avecEtat && ACTIVITE[s.activite] && <Pastille ton={ACTIVITE[s.activite].ton}>{ACTIVITE[s.activite].libelle}</Pastille>}
           {avecEtat && s.attente && <Pastille ton={EVALUATION[s.evaluation].ton}>{EVALUATION[s.evaluation].libelle}</Pastille>}
           <span className="tabulaire text-[11px] text-texte-3">
-            {s.appels} appel{s.appels > 1 ? "s" : ""}
+            {s.appels} {`appel${s.appels > 1 ? "s" : ""}`}
             {s.au ? ` · ${dateCourte(s.au)}` : ""}
           </span>
           {/* Le premier appel dit pourquoi l'outil est entré dans le projet. */}
@@ -321,7 +321,7 @@ function Fenetre({ b }) {
         Usage relevé dans l'historique des sessions Claude Code
         {f?.sessions ? (
           <>
-            {" "}: <strong className="text-texte-2">{f.sessions} session{f.sessions > 1 ? "s" : ""}</strong>
+            {" "}: <strong className="text-texte-2">{f.sessions} {`session${f.sessions > 1 ? "s" : ""}`}</strong>
             {f.du && ` du ${dateCourte(f.du)} au ${dateCourte(f.au)}`}
             {f.purgees ? `, dont ${f.purgees} purgée${f.purgees > 1 ? "s" : ""} par Claude Code et gardée${f.purgees > 1 ? "s" : ""} par MyDashboard Projets` : ""}.
           </>

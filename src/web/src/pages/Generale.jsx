@@ -197,11 +197,11 @@ function FicheProjet({ p, onClick, delai, versTrancher, visite, suivi }) {
   const Icone = iconeProjet(p);
 
   return (
+    // Toute la tuile s'ouvre au clic. Au clavier, le nom du projet est le
+    // bouton : un rôle « button » sur la tuile entière contiendrait le bouton
+    // « Copier », et deux boutons imbriqués sont ambigus pour un lecteur d'écran.
     <div
       onClick={onClick}
-      role="button"
-      tabIndex={0}
-      onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && (e.preventDefault(), onClick(e))}
       style={{ animationDelay: `${delai}ms` }}
       className="bento bento-lien monter flex cursor-pointer flex-col p-5"
     >
@@ -214,7 +214,13 @@ function FicheProjet({ p, onClick, delai, versTrancher, visite, suivi }) {
           >
             <Icone size={30} strokeWidth={1.7} />
           </span>
-          {p.nom}
+          <button
+            type="button"
+            onClick={(e) => (e.stopPropagation(), onClick(e))}
+            className="min-w-0 rounded-md text-left"
+          >
+            {p.nom}
+          </button>
         </h3>
         {/* Le bouton loge sous la pastille, dans la hauteur de la tuile : posé
             dans le pied, il faisait passer celui-ci sur deux lignes. */}

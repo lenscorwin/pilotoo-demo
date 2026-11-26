@@ -434,7 +434,7 @@ function Atelier({ choisis, libelles, retirer, vider, isoler, basculerIsoler, ga
               <span className="text-[13px] font-medium text-texte">
                 Set en préparation
                 <span className="tabulaire ml-2 text-[12px] text-texte-3">
-                  {choisis.length} outil{choisis.length > 1 ? "s" : ""}
+                  {choisis.length} {`outil${choisis.length > 1 ? "s" : ""}`}
                 </span>
               </span>
               <button
@@ -489,7 +489,7 @@ function Atelier({ choisis, libelles, retirer, vider, isoler, basculerIsoler, ga
                   ))}
                 </div>
                 <p className="mt-2 text-[11.5px] leading-relaxed text-texte-3">
-                  {complements} domaine{complements > 1 ? "s" : ""} tenu{complements > 1 ? "s" : ""} par un seul outil
+                  {complements} {`domaine${complements > 1 ? "s" : ""}`} {`tenu${complements > 1 ? "s" : ""}`} par un seul outil
                   {recouvrements > 0
                     ? `, ${recouvrements} en recouvrement : deux outils du set s'y croisent.`
                     : " : aucun recouvrement, le set est franchement complémentaire."}
@@ -551,12 +551,12 @@ function FicheOutil({ o, aller, libelles, choisi, basculer }) {
           <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px]">
             {o.nbProjets > 0 && (
               <span className="text-accent">
-                branché sur {o.nbProjets} projet{o.nbProjets > 1 ? "s" : ""}
+                branché sur {o.nbProjets} {`projet${o.nbProjets > 1 ? "s" : ""}`}
               </span>
             )}
             {conclusions.length > 0 && (
               <span className="text-actif">
-                {conclusions.length} conclusion{conclusions.length > 1 ? "s" : ""}
+                {conclusions.length} {`conclusion${conclusions.length > 1 ? "s" : ""}`}
               </span>
             )}
             {o.ecart && <span className={teintes[ton]}>{o.ecart}</span>}
