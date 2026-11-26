@@ -10,7 +10,8 @@
     "serve": "node src/server/index.mjs",
     "dev": "npm run scan && concurrently -n scan,api,web -c gray,cyan,magenta \"npm:serve\" \"vite --config src/web/vite.config.js\"",
     "build": "vite build --config src/web/vite.config.js",
-    "dash": "npm run scan && npm run build && npm run serve"
+    "dash": "npm run scan && npm run build && npm run serve",
+    "controle:sensibilite": "node scripts/controle-sensibilite.mjs"
   },
   "dependencies": {
     "express": "^4.21.2",

@@ -38,8 +38,8 @@ Je n'avais pas encore travaillé en équipe avec des pull requests. Alors j'ai a
 ## Feuille de route v1.0
 
 - [x] Socle : le code de l'outil réel, configuration d'exemple
-- [ ] Vérification automatique à chaque PR
-- [ ] Contrôle de sensibilité sur tout le dépôt, à chaque PR
+- [x] Vérification automatique à chaque PR
+- [x] Contrôle de sensibilité sur tout le dépôt, à chaque PR
 - [ ] Mode démo : l'interface lit un instantané au lieu du serveur
 - [ ] Données de démonstration nettoyées
 - [ ] Fenêtres Finder et Obsidian simulées pour ouvrir les fichiers
@@ -65,11 +65,19 @@ Adapter d'abord les chemins de `config/targets.json` à sa machine. Un projet es
 | `npm run serve` | sert le dashboard en local, en lecture seule |
 | `npm run dev` | serveur et rechargement à chaud |
 | `npm run build` | compile l'interface |
+| `npm run controle:sensibilite` | relit tout le dépôt à la recherche d'une donnée sensible |
+
+## Le contrôle de sensibilité
+
+Un second contrôle tourne ici, à chaque PR et à chaque compilation de la démo : `scripts/controle-sensibilite.mjs` relit tous les fichiers du dépôt, et la démo compilée quand elle existe. Il fait échouer la vérification s'il trouve un chemin de dossier personnel, une adresse e-mail, une forme de clé d'accès, un tiret long ou un mot privé.
+
+Les mots privés n'y figurent pas en clair : le dépôt n'en garde que les empreintes (`scripts/empreintes-sensibles.json`), et le contrôle compare l'empreinte de chaque mot lu. Son journal masque ce qu'il trouve, car les journaux de vérification d'un dépôt public sont publics eux aussi.
 
 ## Structure
 
 ```
 config/        projets suivis, seuils, dictionnaire des skills
+scripts/       contrôle de sensibilité
 src/scanner/   lecture des projets, de git et du catalogue d'outils
 src/server/    serveur local, lecture seule
 src/web/       interface Vite + React + Tailwind
