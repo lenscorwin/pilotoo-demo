@@ -116,8 +116,10 @@ export default function App() {
     document.title = nom && nom !== "Pilotoo" ? `${nom} · Pilotoo` : "Pilotoo";
   }, [route.vue, projet?.nom]);
 
-  if (erreur && !etat) return <Panne message={erreur} />;
-  if (!etat) return <Attente />;
+  // En démo, l'avis mobile passe avant tout : pas d'écran d'attente ou de
+  // panne tassé sur un téléphone.
+  if (erreur && !etat) return <>{DEMO && <AvisMobile />}<Panne message={erreur} /></>;
+  if (!etat) return <>{DEMO && <AvisMobile />}<Attente /></>;
 
 
   return (

@@ -8,12 +8,17 @@ import { MonitorSmartphone, ArrowUpRight } from "lucide-react";
 /** Seul lien de contact de la démo. Une ligne à changer si l'adresse bouge. */
 export const CONTACT_URL = "https://graphoo.fr/#contact";
 
-const dateLongue = (iso) =>
-  iso ? new Date(iso).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" }) : null;
+/** Date en toutes lettres, ou rien si la valeur n'est pas une date lisible. */
+function dateLongue(iso) {
+  const d = new Date(iso ?? "");
+  if (Number.isNaN(d.getTime())) return null;
+  return d.toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" });
+}
 
 /**
  * Bandeau discret, toujours visible : la démo dit ce qu'elle est.
- * `pointer-events-none` sur le conteneur pour ne jamais gêner un clic dessous.
+ * `pointer-events-none` partout : le bandeau ne contient aucun lien, il ne
+ * doit jamais intercepter un clic destiné au contenu qui défile dessous.
  */
 export function BandeauDemo({ instantane }) {
   const date = dateLongue(instantane);
@@ -21,7 +26,7 @@ export function BandeauDemo({ instantane }) {
     <div className="pointer-events-none fixed inset-x-0 bottom-4 z-40 flex justify-center px-4">
       <p
         role="note"
-        className="pointer-events-auto rounded-full border border-bord-vif bg-fond-2/90 px-4 py-1.5 text-[11.5px] text-texte-2 shadow-sm backdrop-blur"
+        className="rounded-full border border-bord-vif bg-fond-2/90 px-4 py-1.5 text-[11.5px] text-texte-2 shadow-sm backdrop-blur"
       >
         <span className="font-semibold text-texte">Démo</span> : données nettoyées et complétées
         {date ? `, instantané du ${date}` : ""}. Méthode et outil réels.

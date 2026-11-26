@@ -16,6 +16,15 @@ const demo = (fichier) => `${import.meta.env.BASE_URL}demo/${fichier}`;
 /** Durée du scan joué : assez pour voir l'animation, pas assez pour lasser. */
 const DUREE_SCAN_DEMO = 1600;
 
+/** Le visiteur a-t-il déjà cliqué « Marquer comme vu » ? Même clé que DepuisVisite.jsx. */
+function dejaVu() {
+  try {
+    return Boolean(localStorage.getItem("pilotoo.derniereVisite"));
+  } catch {
+    return false;
+  }
+}
+
 /** Date du dernier scan joué : la démo affiche « mis à jour à l'instant » après un clic. */
 let scanJoueLe = null;
 
@@ -71,9 +80,12 @@ export async function ouvrir(uri) {
  */
 export async function chargerProgres(depuis) {
   if (DEMO) {
+    const vide = { depuis: null, projets: [], total: { closes: 0, tranches: 0, sessions: 0, jalons: 0 } };
+    // « Marquer comme vu » écrit cette clé (DepuisVisite.jsx) : le visiteur a
+    // vu les nouveautés, le bilan se vide comme dans l'outil réel.
+    if (dejaVu()) return vide;
     const r = await fetch(demo("progres.json"));
-    if (!r.ok) return { depuis: null, projets: [], total: { closes: 0, tranches: 0, sessions: 0, jalons: 0 } };
-    return r.json();
+    return r.ok ? r.json() : vide;
   }
   const r = await fetch(`/api/progres?depuis=${encodeURIComponent(depuis)}`);
   if (!r.ok) throw new Error("Historique illisible");
