@@ -395,26 +395,35 @@ function SousProjets({ items }) {
     <Section titre="Sous-projets" compte={items.length} tonCompte="accent" icone={FolderTree}>
       <ul className="space-y-2">
         {tries.map((s) => (
-          <li key={s.dossier}>
-            <button
-              onClick={() => ouvrir(s.ouverture?.etat?.uri ?? s.ouverture?.dossier)}
-              title={s.ouverture?.etat ? "Ouvrir la fiche d'état" : "Ouvrir le dossier"}
-              className="w-full rounded-xl border border-bord bg-fond-2 p-4 text-left text-[12px] transition hover:border-vert-bord"
-            >
-              <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
-                <span className="text-[13.5px] font-semibold text-texte">{s.nom}</span>
+          <li key={s.dossier} className="rounded-xl border border-bord bg-fond-2 p-4 text-[12px]">
+            {/* La carte se lit, elle ne s'ouvre pas : seul le petit bouton à droite ouvre. */}
+            <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
+              <span className="text-[13.5px] font-semibold text-texte">{s.nom}</span>
+              <span className="flex items-center gap-2.5">
                 <span className={`text-[11.5px] ${s.joursDepuisModif != null && s.joursDepuisModif <= 7 ? "text-actif" : "text-texte-3"}`}>
                   {depuis(s.derniereModif)}
                 </span>
-              </div>
+                {(s.ouverture?.etat?.uri || s.ouverture?.dossier) && (
+                  <button
+                    type="button"
+                    onClick={() => ouvrir(s.ouverture?.etat?.uri ?? s.ouverture?.dossier)}
+                    aria-label={`${s.ouverture?.etat ? "Ouvrir la fiche d'état" : "Ouvrir le dossier"} de ${s.nom}`}
+                    title={s.ouverture?.etat ? "Ouvrir la fiche d'état" : "Ouvrir le dossier"}
+                    className="inline-flex items-center gap-1 rounded-md border border-bord px-2 py-1 text-[11px] font-medium text-texte-2 transition hover:border-vert-bord hover:text-accent"
+                  >
+                    {s.ouverture?.etat ? <FileText size={12} strokeWidth={2} /> : <FolderOpen size={12} strokeWidth={2} />}
+                    Ouvrir
+                  </button>
+                )}
+              </span>
+            </div>
               {(s.resume || s.role) && <p className="mt-1 leading-relaxed text-texte-2">{s.resume ?? s.role}</p>}
               {s.avancement != null && (
                 <div className="mt-2.5">
                   <Jauge valeur={s.avancement} />
                 </div>
               )}
-              <div className="mt-2 text-texte-3">{resumeSousProjet(s)}</div>
-            </button>
+            <div className="mt-2 text-texte-3">{resumeSousProjet(s)}</div>
           </li>
         ))}
       </ul>

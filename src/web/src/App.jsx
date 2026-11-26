@@ -17,6 +17,7 @@ import Projet from "./pages/Projet.jsx";
 import Outils from "./pages/Outils.jsx";
 import { chargerEtat, relancerScan, DEMO } from "./lib/api.js";
 import { BandeauDemo, AvisMobile } from "./components/Demo.jsx";
+import Fenetres from "./components/Fenetres.jsx";
 
 /**
  * `#/projet/<id>/<onglet>` : l'onglet vit dans l'URL pour qu'un rechargement,
@@ -126,6 +127,7 @@ export default function App() {
     <div className="relative flex h-full gap-3 p-3">
       {DEMO && <AvisMobile />}
       {DEMO && <BandeauDemo instantane={etat.instantane} />}
+      {DEMO && <Fenetres />}
       <Menu etat={etat} route={route} aller={aller} rafraichir={rafraichir} enCours={scanEnCours} />
       <main ref={zone} className="zone-defilante relative min-w-0 flex-1 overflow-y-auto rounded-[28px]">
         {route.vue === "general" && <Generale etat={etat} aller={aller} />}
