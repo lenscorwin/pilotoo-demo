@@ -157,7 +157,7 @@ export default function Outils({ etat, aller }) {
   return (
     <div className={`mx-auto max-w-[1200px] px-8 py-8 ${choisis.length ? (replie ? "pb-20" : "pb-56") : ""}`}>
       <header className="mb-9">
-        <p className="t-surtitre">Bibliothèque « Skills-Lib »</p>
+        <p className="t-surtitre">Bibliothèque « Library AI »</p>
         <h1 className="t-display mt-2">Outils</h1>
         <p className="t-chapo mt-3 max-w-3xl">
           Le catalogue déclaré dans <code className="rounded bg-fond-3 px-1 py-0.5 text-[12px]">SKILLS.md</code>, croisé

@@ -40,7 +40,7 @@ export default function ProjetEssais({ p }) {
         </div>
         <p className="text-[12.5px] leading-relaxed text-texte-2">
           Les essais vivent ici, dans le projet où ils ont été menés : le même outil peut gagner sur un projet et
-          perdre sur un autre. Seule la conclusion part à l'archive, dans la fiche de l'outil chez « Skills-Lib ».
+          perdre sur un autre. Seule la conclusion part à l'archive, dans la fiche de l'outil chez « Library AI ».
         </p>
         <button
           onClick={() => ouvrir(b.lien?.uri)}
