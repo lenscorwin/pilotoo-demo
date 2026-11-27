@@ -3,7 +3,7 @@
  * Rien de tout ça n'existe dans l'outil réel (`DEMO` faux).
  */
 import React from "react";
-import { MonitorSmartphone, ArrowUpRight } from "lucide-react";
+import { MonitorSmartphone, ArrowUpRight, ArrowLeft } from "lucide-react";
 
 /** Seul lien de contact de la démo. Une ligne à changer si l'adresse bouge. */
 export const CONTACT_URL = "https://graphoo.fr/#/card";
@@ -37,7 +37,8 @@ export function BandeauDemo({ instantane }) {
 
 /**
  * Sous 1024 px, le dashboard est trop dense pour être lisible : on le dit
- * franchement plutôt que d'offrir une version tassée.
+ * franchement plutôt que d'offrir une version tassée. Seul l'accueil est
+ * adapté au téléphone : l'avis y renvoie.
  */
 export function AvisMobile() {
   return (
@@ -49,13 +50,22 @@ export function AvisMobile() {
           MyDashboard Projets est un tableau de bord dense, pensé pour un grand écran. Ouvre cette page sur un ordinateur pour
           la parcourir.
         </p>
-        <a
-          href={CONTACT_URL}
-          className="inline-flex items-center gap-1.5 rounded-full bg-texte px-4 py-2 text-[13px] font-medium text-fond"
-        >
-          Me contacter sur graphoo.fr
-          <ArrowUpRight size={14} strokeWidth={2.2} />
-        </a>
+        <div className="flex flex-col items-center gap-3">
+          <a
+            href="#/"
+            className="inline-flex items-center gap-1.5 rounded-full bg-texte px-4 py-2 text-[13px] font-medium text-fond"
+          >
+            <ArrowLeft size={14} strokeWidth={2.2} aria-hidden="true" />
+            Revenir à l'accueil
+          </a>
+          <a
+            href={CONTACT_URL}
+            className="inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-[13px] font-medium text-texte-2 underline-offset-4 hover:underline"
+          >
+            Me contacter sur graphoo.fr
+            <ArrowUpRight size={14} strokeWidth={2.2} aria-hidden="true" />
+          </a>
+        </div>
       </div>
     </div>
   );

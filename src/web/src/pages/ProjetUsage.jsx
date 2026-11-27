@@ -14,6 +14,7 @@ import {
 import { Pastille, Section, Tuile } from "../components/primitives.jsx";
 import { ouvrir } from "../lib/api.js";
 import { depuis, dateCourte } from "../lib/format.js";
+import { redigePourDemo } from "../components/AvisDemo.jsx";
 
 export const EVALUATION = {
   "a-reporter": { libelle: "Conclusion à reporter", ton: "bloque", aide: "Testé au banc, verdict écrit dans le projet, absent de la fiche." },
@@ -267,6 +268,7 @@ function CarteSujet({ s }) {
             <p key={i} className="line-clamp-3 text-[12px] leading-relaxed text-texte-2">
               <span className="tabulaire mr-1.5 text-texte-3">{r.date}</span>
               {r.issue && <span className="mr-1.5 text-texte">{r.issue}</span>}
+              {redigePourDemo(s.nom, r) && <span className="mr-1.5 text-texte-3">(rédigé pour la démo)</span>}
               {r.texte}
             </p>
           ))}

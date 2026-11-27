@@ -12,6 +12,7 @@
 import React, { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { dateCourte } from "../lib/format.js";
+import { maintenant } from "../lib/horloge.js";
 
 const COULEURS = ["#2a78d6", "#c4501c", "#13865f", "#a86f00", "#c2457a", "#007600", "#7b6fd9", "#d64f4f"];
 const couleur = (i) => COULEURS[i] ?? "var(--color-texte-3)";
@@ -180,7 +181,7 @@ function colonnes(parJour) {
     return new Date(a, m - 1, d);
   };
   const debut = local(jours[0]);
-  const fin = new Date();
+  const fin = new Date(maintenant());
   fin.setHours(0, 0, 0, 0);
   const duree = (fin - debut) / 864e5;
   const pas = duree <= 31 ? "jour" : duree <= 280 ? "semaine" : "mois";

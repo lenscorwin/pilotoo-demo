@@ -1,5 +1,7 @@
 /** Mise en forme partagée : dates en français, libellés d'état, tonalités. */
 
+import { maintenant } from "./horloge.js";
+
 const JOUR_MS = 86_400_000;
 
 export function dateCourte(iso) {
@@ -12,7 +14,7 @@ export function dateCourte(iso) {
 /** « il y a 3 jours », « aujourd'hui ». Plus parlant qu'une date pour l'activité. */
 export function depuis(iso) {
   if (!iso) return "jamais";
-  const j = Math.floor((Date.now() - new Date(iso).getTime()) / JOUR_MS);
+  const j = Math.floor((maintenant() - new Date(iso).getTime()) / JOUR_MS);
   if (Number.isNaN(j)) return "-";
   if (j <= 0) return "aujourd'hui";
   if (j === 1) return "hier";
