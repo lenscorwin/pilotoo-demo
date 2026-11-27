@@ -146,6 +146,11 @@ export default function Accueil({ etat, aller }) {
               Le résumé, les étapes, les décisions en attente, les outils vraiment utilisés, et le graphe des
               branches git avec les copies de travail en cours.
             </p>
+            <p className="mt-2">
+              C'est le dépôt de travail de l'outil, tel qu'il était le 25 novembre : chantiers en cours, copies de
+              travail ouvertes, rien n'a été rangé pour la démo. La version publique, avec ses pull requests, est
+              sur GitHub.
+            </p>
           </Etape>
 
           <Etape
