@@ -1,12 +1,12 @@
 {
   "_doc": "Ce qu’est chaque projet, en une phrase, rédigée par Claude après lecture du projet. Affichée en tête de chaque tuile de la vue générale. Clé = id du projet.",
-  "redigeLe": "2026-11-08",
+  "redigeLe": "2026-11-26",
   "projets": {
-    "audit-produit": "Plugin Claude Code qui prépare mes audits de produits numériques (UX, SEO, accessibilité) et en tire une feuille de route de corrections.",
+    "audit-produit": "En conception (R&D) : un outil qui préparera mes audits de produits numériques. L'IA prépare, l'expert tranche ; deux validations humaines obligatoires. Règles écrites, agents pas encore codés.",
     "skills-lib": "Ma bibliothèque Obsidian de skills, méthodes et gabarits, dont héritent tous mes autres projets.",
     "pilotoo": "Le tableau de bord local qui montre d'un coup d'œil où en sont tous mes projets.",
     "graphoo-v2": "Mon portfolio en ligne sur graphoo.fr, avec une démo e-commerce et des statistiques de visite Umami.",
     "graphoo": "L'atelier graphoo autour du site : banc d'essai des skills design, motion, design system, DS Urban Station en ligne et mini-lib d'agents.",
-    "bot-conversationnel": "Assistant personnel hébergé sur graphoo.fr : prise de rendez-vous, accusé de réception, FAQ et réponses conversationnelles."
+    "bot-conversationnel": "Un assistant professionnel pour les demandes entrantes. La V1 a tourné sur Telegram puis a été arrêtée volontairement ; la V2 est cadrée, pas déployée."
   }
 }
