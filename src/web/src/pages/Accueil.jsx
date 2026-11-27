@@ -10,7 +10,7 @@
  */
 import React from "react";
 import {
-  ArrowDown, ArrowUpRight, GitBranch, BookOpen, Network, Terminal, PenTool, Code2, Mail,
+  ArrowDown, ArrowUpRight, GitBranch, BookOpen, Network, Terminal, PenTool, Code2, Mail, MonitorSmartphone,
 } from "lucide-react";
 import { ouvrir } from "../lib/api.js";
 import { CONTACT_URL } from "../components/Demo.jsx";
@@ -34,10 +34,20 @@ export default function Accueil({ etat, aller }) {
     document.getElementById("visite")?.scrollIntoView({ behavior: "smooth", block: "start" });
 
   return (
-    <div className="mx-auto flex max-w-[1200px] flex-col gap-10 px-6 py-8 lg:px-8">
+    <div className="mx-auto flex max-w-[1200px] flex-col gap-8 px-1 pt-2 pb-20 sm:px-6 sm:py-8 lg:gap-10 lg:px-8">
+      {/* ─── Téléphone : seule cette page est adaptée, on le dit d'entrée ─── */}
+      <aside role="note" className="bento flex items-start gap-3 p-5 lg:hidden">
+        <MonitorSmartphone size={20} strokeWidth={2} className="mt-0.5 shrink-0 text-accent" aria-hidden="true" />
+        <p className="text-[13.5px] leading-relaxed text-texte-2">
+          <strong className="font-bold text-texte">Sur téléphone, seule cette page est adaptée.</strong> Le reste du
+          tableau de bord (vue générale, pages projet, outils) est conçu pour un écran d'ordinateur : la visite
+          complète se fait sur grand écran.
+        </p>
+      </aside>
+
       {/* ─── Ouverture : l'intention et les chiffres ─── */}
       <div className="grid gap-4 lg:grid-cols-12">
-        <section className="bento nuit monter flex flex-col !bg-fond p-8 lg:col-span-8" aria-labelledby="titre-accueil">
+        <section className="bento nuit monter flex flex-col !bg-fond p-6 sm:p-8 lg:col-span-8" aria-labelledby="titre-accueil">
           <p className="t-surtitre text-texte-3">Visite guidée</p>
           <h1 id="titre-accueil" className="t-display mt-2 text-texte">
             Le tableau de bord de mes projets
@@ -57,7 +67,7 @@ export default function Accueil({ etat, aller }) {
             </button>
             <button
               onClick={() => aller({ vue: "general" })}
-              className="inline-flex items-center gap-2 rounded-full bg-white/[0.08] px-5 py-2.5 text-[13px] font-bold text-texte transition hover:bg-white/15 active:scale-[0.97]"
+              className="hidden items-center gap-2 rounded-full bg-white/[0.08] lg:inline-flex px-5 py-2.5 text-[13px] font-bold text-texte transition hover:bg-white/15 active:scale-[0.97]"
             >
               Aller à la vue générale
               <ArrowUpRight size={15} strokeWidth={2.4} aria-hidden="true" />
@@ -207,7 +217,7 @@ export default function Accueil({ etat, aller }) {
 
       {/* ─── Contact ─── */}
       <section
-        className="bento nuit flex flex-wrap items-center justify-between gap-6 !bg-fond p-8"
+        className="bento nuit flex flex-wrap items-center justify-between gap-6 !bg-fond p-6 sm:p-8"
         aria-labelledby="titre-contact"
       >
         <div className="max-w-xl">
@@ -276,12 +286,13 @@ function Chiffre({ valeur, libelle }) {
   );
 }
 
+/** Mène à un écran fait pour ordinateur : masqué sur téléphone, où seul l'accueil est adapté. */
 function BoutonAction({ action }) {
   if (!action) return null;
   return (
     <button
       onClick={action.faire}
-      className="group mt-auto inline-flex items-center gap-1.5 self-start rounded-full bg-texte/[0.06] px-3.5 py-1.5 text-[12.5px] font-bold text-texte transition hover:bg-texte/10 active:scale-[0.97]"
+      className="group mt-auto hidden items-center gap-1.5 self-start rounded-full lg:inline-flex bg-texte/[0.06] px-3.5 py-1.5 text-[12.5px] font-bold text-texte transition hover:bg-texte/10 active:scale-[0.97]"
     >
       {action.libelle}
       <ArrowUpRight

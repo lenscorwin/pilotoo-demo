@@ -119,18 +119,24 @@ export default function App() {
     document.title = nom && nom !== NOM_OUTIL ? `${nom} · ${NOM_OUTIL}` : NOM_OUTIL;
   }, [route.vue, projet?.nom]);
 
-  // En démo, l'avis mobile passe avant tout : pas d'écran d'attente ou de
-  // panne tassé sur un téléphone.
-  if (erreur && !etat) return <>{DEMO && <AvisMobile />}<Panne message={erreur} /></>;
-  if (!etat) return <>{DEMO && <AvisMobile />}<Attente /></>;
+  // Sur téléphone, seul l'accueil est adapté : il dit lui-même que le reste
+  // demande un ordinateur. Partout ailleurs, l'avis mobile passe avant tout,
+  // y compris devant un écran d'attente ou de panne.
+  const accueil = route.vue === "accueil";
+  const avisMobile = DEMO && !accueil;
+  if (erreur && !etat) return <>{avisMobile && <AvisMobile />}<Panne message={erreur} /></>;
+  if (!etat) return <>{avisMobile && <AvisMobile />}<Attente /></>;
 
 
   return (
     <div className="relative flex h-full gap-3 p-3">
-      {DEMO && <AvisMobile />}
+      {avisMobile && <AvisMobile />}
       {DEMO && <BandeauDemo instantane={etat.instantane} />}
       {DEMO && <Fenetres />}
-      <Menu etat={etat} route={route} aller={aller} rafraichir={rafraichir} enCours={scanEnCours} />
+      {/* Sur téléphone, l'accueil se lit sans le menu : il mène à des pages faites pour ordinateur. */}
+      <div className={accueil ? "hidden lg:contents" : "contents"}>
+        <Menu etat={etat} route={route} aller={aller} rafraichir={rafraichir} enCours={scanEnCours} />
+      </div>
       <main ref={zone} className="zone-defilante relative min-w-0 flex-1 overflow-y-auto rounded-[28px]">
         {route.vue === "accueil" && <Accueil etat={etat} aller={aller} />}
         {route.vue === "general" && <Generale etat={etat} aller={aller} />}
