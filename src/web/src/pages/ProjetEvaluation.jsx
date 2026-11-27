@@ -12,6 +12,7 @@ import {
   FolderOpen, Star, ArrowRight,
 } from "lucide-react";
 import { Pastille, Section, RienASignaler } from "../components/primitives.jsx";
+import { MentionDemo } from "../components/AvisDemo.jsx";
 import { ouvrir } from "../lib/api.js";
 import { LIBELLE_ETAT_OUTIL, TON_ETAT_OUTIL } from "../lib/format.js";
 
@@ -279,6 +280,7 @@ function LigneConclusion({ c, premier }) {
         )}
         <Jugement note={c.note} issue={c.issue} />
         {c.simpleInstallation && <Pastille ton="termine">Installation, pas d'essai</Pastille>}
+        <MentionDemo nomOutil={c.outil.nom} retour={c} />
         {c.outil.lienFiche && (
           <button
             onClick={() => ouvrir(c.outil.lienFiche.uri)}
@@ -347,6 +349,7 @@ function FicheEvaluation({ o }) {
                 <span className="tabulaire text-[11px] font-medium text-actif">{r.date}</span>
                 {r.projet && <span className="text-[11px] text-texte-3">{r.projet}</span>}
                 <Jugement note={r.note} issue={r.issue} />
+                <MentionDemo nomOutil={o.nom} retour={r} />
               </div>
               <p className="mt-1 text-[12.5px] leading-relaxed text-texte-2">{r.texte}</p>
             </li>

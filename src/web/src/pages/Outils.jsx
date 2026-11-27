@@ -21,7 +21,8 @@ import {
   Check, X, Layers, Eye, Bookmark,
 } from "lucide-react";
 import { Pastille } from "../components/primitives.jsx";
-import { ouvrir } from "../lib/api.js";
+import { MentionDemo } from "../components/AvisDemo.jsx";
+import { DEMO, ouvrir } from "../lib/api.js";
 import { LIBELLE_ETAT_OUTIL, TON_ETAT_OUTIL } from "../lib/format.js";
 
 const FILTRES_ETAT = [
@@ -71,7 +72,8 @@ function lireSets() {
 }
 
 export default function Outils({ etat, aller }) {
-  const [filtre, setFiltre] = useState("tout");
+  // En démo, on ouvre sur ce qui sert vraiment : « Tout » commence par des outils déclarés mais absents.
+  const [filtre, setFiltre] = useState(DEMO ? "actif" : "tout");
   const [domaine, setDomaine] = useState("tout");
   const [q, setQ] = useState("");
   const [selection, setSelection] = useState(() => new Set());
@@ -588,7 +590,7 @@ function FicheOutil({ o, aller, libelles, choisi, basculer }) {
         )}
 
         <Presence presence={o.presence} aller={aller} />
-        <Conclusions conclusions={conclusions} />
+        <Conclusions conclusions={conclusions} nomOutil={o.nom} />
 
         <div className="flex flex-wrap items-center gap-2 pt-1">
           {(o.domaines ?? []).map((d) => (
@@ -673,7 +675,7 @@ function Presence({ presence, aller }) {
 }
 
 /** Ce que j'en ai conclu, archivé dans la fiche par « Skills-Lib ». */
-function Conclusions({ conclusions }) {
+function Conclusions({ conclusions, nomOutil }) {
   if (!conclusions.length) return null;
   return (
     <div>
@@ -693,6 +695,7 @@ function Conclusions({ conclusions }) {
                 </Pastille>
               )}
               {r.issue && <Pastille ton={r.issue === "retenu" ? "actif" : "pause"}>{r.issue}</Pastille>}
+              <MentionDemo nomOutil={nomOutil} retour={r} />
             </div>
             <p className="mt-1 text-[12.5px] leading-relaxed text-texte-2">{r.texte}</p>
           </li>
