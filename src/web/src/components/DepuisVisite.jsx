@@ -14,6 +14,7 @@ import React, { useEffect, useState } from "react";
 import { Check, Scale, History, Sparkles, ChevronRight } from "lucide-react";
 import { chargerProgres } from "../lib/api.js";
 import { depuis as ilYA } from "../lib/format.js";
+import { maintenant } from "../lib/horloge.js";
 
 const CLE = "pilotoo.derniereVisite";
 
@@ -38,7 +39,13 @@ function ecrireVisite(iso) {
  * `parProjet` donne le détail d'un projet par son id, ou rien s'il n'a pas bougé.
  */
 export function useDepuisVisite(etat) {
-  const [visite, setVisite] = useState(() => lireVisite() ?? new Date(Date.now() - 86_400_000).toISOString());
+  const [visite, setVisite] = useState(() => {
+    // Une visite notée « après » l'heure de référence (démo figée, visite réelle
+    // plus récente) viderait le bilan : on repart alors de la veille.
+    const notee = lireVisite();
+    if (notee && new Date(notee).getTime() <= maintenant()) return notee;
+    return new Date(maintenant() - 86_400_000).toISOString();
+  });
   const [bilan, setBilan] = useState(null);
 
   // Rechargé à chaque nouveau scan : une étape cochée ailleurs apparaît ici.
@@ -47,9 +54,9 @@ export function useDepuisVisite(etat) {
   }, [visite, etat.genereLe]);
 
   const marquerVu = () => {
-    const maintenant = new Date().toISOString();
-    ecrireVisite(maintenant);
-    setVisite(maintenant);
+    const vuLe = new Date(maintenant()).toISOString();
+    ecrireVisite(vuLe);
+    setVisite(vuLe);
   };
 
   const parProjet = Object.fromEntries((bilan?.projets ?? []).map((d) => [d.id, d]));

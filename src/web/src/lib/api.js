@@ -8,6 +8,8 @@
  *   est confiée aux fenêtres simulées par un événement `pilotoo:ouvrir`.
  */
 
+import { figerAujourdhui, maintenant } from "./horloge.js";
+
 export const DEMO = import.meta.env.MODE === "demo";
 
 /** Chemin relatif à la page : la démo marche sur un sous-domaine comme dans un sous-dossier. */
@@ -35,6 +37,8 @@ export async function chargerEtat() {
     const etat = await r.json();
     // `instantane` garde la vraie date de l'instantané pour le bandeau.
     etat.instantane ??= etat.genereLe;
+    // La démo vit à la date de son instantané, pas à celle du visiteur.
+    figerAujourdhui(etat.instantane);
     if (scanJoueLe) etat.genereLe = scanJoueLe;
     return etat;
   }
@@ -47,7 +51,7 @@ export async function chargerEtat() {
 export async function relancerScan() {
   if (DEMO) {
     await new Promise((fin) => setTimeout(fin, DUREE_SCAN_DEMO));
-    scanJoueLe = new Date().toISOString();
+    scanJoueLe = new Date(maintenant()).toISOString();
     return { ok: true, joue: true };
   }
   const r = await fetch("/api/rescan", { method: "POST" });

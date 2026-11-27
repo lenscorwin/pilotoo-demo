@@ -14,6 +14,7 @@ import { LIBELLE_STATUT, TON_STATUT, TON_ALERTE, depuis, titreMethode } from "..
 import { iconeProjet, TUILE_TON } from "../lib/icones.js";
 import { useDepuisVisite, BarreVisite, ListeVisite } from "../components/DepuisVisite.jsx";
 import { Anneau } from "../components/Progression.jsx";
+import { maintenant } from "../lib/horloge.js";
 
 export default function Generale({ etat, aller }) {
   const { projets, resume } = etat;
@@ -40,7 +41,7 @@ export default function Generale({ etat, aller }) {
     <div className="mx-auto max-w-[1200px] px-6 py-8 lg:px-8">
       <header className="mb-8">
         <p className="t-surtitre">
-          {new Date().toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" })}
+          {new Date(maintenant()).toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" })}
         </p>
         <h1 className="t-display mt-2">Où en sont mes projets</h1>
         <p className="t-chapo mt-3 max-w-2xl">
